@@ -37,9 +37,12 @@ Route::prefix('v1')->group(function () {
     // Protected Routes (Require Auth)
     // ----------------------------
     Route::middleware('auth:sanctum')->group(function () {
-        
-    Route::get('zoya/reports', [ZoyaReportController::class, 'getAllReports']);
-    Route::get('zoya/reports/{symbol}', [ZoyaReportController::class, 'getSingleReport']);
+
+    // routes/api.php
+Route::get('zoya/reports', [ZoyaReportController::class, 'getAllReports']);
+
+
+    
       
 
         // Admin Route: Create/Update Terms & Conditions
