@@ -15,32 +15,86 @@ class ZoyaService
         $this->apiKey = config('services.zoya.key');  
     }
 
-    // All compliant stocks
-    public function getAllReports()
+    // -----------------------------
+    // 1. Get shariah compliance rating for a specific stock
+    // -----------------------------
+    public function getStockReport($symbol)
     {
         $query = '
-        query ListCompliantStocks {
+        query {
           basicCompliance {
-            reports(input: { filters: { status: COMPLIANT } }) {
+            report(symbol: "' . $symbol . '") {
+              symbol
+              name
+              exchange
+              status
+            }
+          }
+        }';
+
+        return $this->sendQuery($query);
+    }
+
+    // -----------------------------
+    // 2. Get all shariah compliance ratings for US market
+    // -----------------------------
+    public function getAllReports($nextToken = null)
+    {
+        $input = $nextToken ? "{ input: { nextToken: \"$nextToken\" } }" : "";
+
+        $query = '
+        query {
+          basicCompliance {
+            reports' . $input . ' {
               items {
                 symbol
                 name
                 exchange
                 status
-                reportDate
               }
               nextToken
             }
           }
         }';
+
         return $this->sendQuery($query);
     }
 
-    // Single stock advanced report
+    // -----------------------------
+// 3. Get all shariah compliant stocks in US market (fixed)
+// -----------------------------
+public function getAllCompliantStocks($nextToken = null)
+{
+    $input = "{ filters: { status: COMPLIANT } }";
+    if ($nextToken) {
+        $input = "{ nextToken: \"$nextToken\", filters: { status: COMPLIANT } }";
+    }
+
+    $query = '
+    query {
+      basicCompliance {
+        reports(input: ' . $input . ') {
+          items {
+            symbol
+            reportDate
+            name
+            exchange
+          }
+          nextToken
+        }
+      }
+    }';
+
+    return $this->sendQuery($query);
+}
+
+    // -----------------------------
+    // 4. Get full shariah compliance report for a specific stock
+    // -----------------------------
     public function getAdvancedReport($symbol)
     {
         $query = '
-        query GetAdvancedReport {
+        query {
           advancedCompliance {
             report(input: {
               symbol: "' . $symbol . '",
@@ -65,79 +119,13 @@ class ZoyaService
             }
           }
         }';
+
         return $this->sendQuery($query);
     }
 
-    // Region reports
-    public function getRegionReports($region)
-    {
-        $query = '
-        query ListInternationalReports {
-          advancedCompliance {
-            reports(input: {
-              region: "' . $region . '",
-              methodology: AAOIFI
-            }) {
-              items {
-                symbol
-                rawSymbol
-                name
-                figi
-                exchange
-                status
-                reportDate
-                businessScreen
-                financialScreen
-                ... on AAOIFIReport {
-                  debtToMarketCapRatio 
-                  securitiesToMarketCapRatio 
-                }
-              }
-              nextToken
-            }
-          }
-        }';
-        return $this->sendQuery($query);
-    }
-
-    // Fund reports
-    public function getFunds($limit = 10, $nextToken = null)
-    {
-        $query = '
-        query Funds($input: BasicFundsInput) {
-          basicCompliance {
-            funds(input: $input) {
-              items {
-                symbol
-                name
-                status
-                reportDate
-                holdingsAsOfDate
-              }
-              nextToken
-            }
-          }
-        }';
-
-        $variables = [
-            "input" => [
-                "limit" => $limit,
-                "nextToken" => $nextToken
-            ]
-        ];
-
-        $response = Http::withHeaders([
-            'Authorization' => $this->apiKey,
-            'Content-Type' => 'application/json',
-        ])->post($this->baseUrl, [
-            'query' => $query,
-            'variables' => $variables
-        ]);
-
-        return $response->json();
-    }
-
-    // Helper to send query
+    // -----------------------------
+    // Helper function to send GraphQL request
+    // -----------------------------
     private function sendQuery($query)
     {
         $response = Http::withHeaders([

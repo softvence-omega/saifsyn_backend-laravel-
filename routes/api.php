@@ -39,7 +39,12 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
     // routes/api.php
-Route::get('zoya/reports', [ZoyaReportController::class, 'getAllReports']);
+Route::prefix('zoya')->group(function () {
+    Route::get('stock', [ZoyaReportController::class, 'getStockReport'])->name('zoya.stock.report');
+    Route::get('reports', [ZoyaReportController::class, 'getAllReports'])->name('zoya.all.reports');
+    Route::get('compliant-stocks', [ZoyaReportController::class, 'getAllCompliantStocks'])->name('zoya.compliant.stocks');
+    Route::get('advanced-report', [ZoyaReportController::class, 'getAdvancedReport'])->name('zoya.advanced.report');
+});
 
 
     

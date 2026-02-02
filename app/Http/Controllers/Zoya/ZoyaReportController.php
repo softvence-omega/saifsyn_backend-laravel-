@@ -15,54 +15,49 @@ class ZoyaReportController extends Controller
         $this->zoya = $zoya;
     }
 
-    /**
-     * Get Zoya reports based on query params
-     * 
-     * Query params:
-     * - symbol : string (single stock)
-     * - region : string (region reports)
-     * - fund   : string (fund/ETF)
-     * - us_non_us : string ("US" or "NON-US")
-     * - nextToken : string (for pagination)
-     */
-    public function getAllReports(Request $request)
-{
-    $user = $request->user();
-    if (!$user) {
-        return response()->json(['message' => 'Unauthorized'], 401);
-    }
-
-    $symbol    = $request->query('symbol');
-    $region    = $request->query('region');
-    $fund      = $request->query('fund');
-    $usNonUs   = $request->query('us_non_us');
-    $nextToken = $request->query('nextToken');
-
-    // Priority: Symbol > Fund > Region > US/Non-US
-    if ($symbol) {
-        // Single stock (US or Non-US)
-        $data = $this->zoya->getAdvancedReport($symbol);
-    } elseif ($fund) {
-        // Fund/ETF reports with pagination
-        $data = $this->zoya->getFunds(10, $nextToken);
-    } elseif ($region) {
-        // Region specific reports
-        $data = $this->zoya->getRegionReports($region);
-    } elseif ($usNonUs) {
-        if ($usNonUs === 'US') {
-            $data = $this->zoya->getAllReports(); // US stocks
-        } else {
-            // Non-US needs region input, fallback if not provided
-            $region = $region ?? 'GB'; // default example region
-            $data = $this->zoya->getRegionReports($region);
+    // -----------------------------
+    // 1. Get shariah compliance rating for a specific stock
+    // -----------------------------
+    public function getStockReport(Request $request)
+    {
+        $symbol = $request->query('symbol');
+        if (!$symbol) {
+            return response()->json(['error' => 'Symbol is required'], 400);
         }
-    } else {
-        // Default: all US compliant stocks
-        $data = $this->zoya->getAllReports();
+
+        return response()->json($this->zoya->getStockReport($symbol));
     }
 
-    return response()->json([
-        'data' => $data
-    ]);
-}
+    // -----------------------------
+    // 2. Get all shariah compliance ratings for US market
+    // -----------------------------
+    public function getAllReports(Request $request)
+    {
+        $nextToken = $request->query('nextToken', null);
+
+        return response()->json($this->zoya->getAllReports($nextToken));
+    }
+
+    // -----------------------------
+    // 3. Get all shariah compliant stocks in US market
+    // -----------------------------
+    public function getAllCompliantStocks(Request $request)
+    {
+        $nextToken = $request->query('nextToken', null);
+
+        return response()->json($this->zoya->getAllCompliantStocks($nextToken));
+    }
+
+    // -----------------------------
+    // 4. Get full shariah compliance report for a specific stock
+    // -----------------------------
+    public function getAdvancedReport(Request $request)
+    {
+        $symbol = $request->query('symbol');
+        if (!$symbol) {
+            return response()->json(['error' => 'Symbol is required'], 400);
+        }
+
+        return response()->json($this->zoya->getAdvancedReport($symbol));
+    }
 }
