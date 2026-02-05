@@ -160,6 +160,54 @@ public function getInternationalReport($symbol)
 }
 
 
+
+
+
+
+// -----------------------------
+// Get shariah compliance reports for a region
+// Usage: pass region ISO code (e.g., "GB", "US") and optional nextToken
+// -----------------------------
+public function getRegionalReports($region, $nextToken = null)
+{
+    // Build input string for GraphQL (AAOIFI as enum, no quotes)
+    $inputString = '{region: "' . $region . '", methodology: AAOIFI';
+    if ($nextToken) {
+        $inputString .= ', nextToken: "' . $nextToken . '"';
+    }
+    $inputString .= '}';
+
+    // GraphQL query
+    $query = '
+    query {
+      advancedCompliance {
+        reports(input: ' . $inputString . ') {
+          items {
+            symbol
+            rawSymbol
+            name
+            figi
+            exchange
+            status
+            reportDate
+            businessScreen
+            financialScreen
+            ... on AAOIFIReport {
+              debtToMarketCapRatio
+              securitiesToMarketCapRatio
+            }
+          }
+          nextToken
+        }
+      }
+    }';
+
+    return $this->sendQuery($query);
+}
+
+
+
+
     // -----------------------------
     // Helper function to send GraphQL request
     // -----------------------------

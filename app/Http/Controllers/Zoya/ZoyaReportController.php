@@ -65,7 +65,7 @@ class ZoyaReportController extends Controller
 
 
      // -----------------------------
-// Get NON-US / International stock compliance report
+// Get 5 NON-US / International stock compliance report
 // Usage: /api/zoya/international-report?symbol=0R0K-LN
 // -----------------------------
 public function getInternationalReport(Request $request)
@@ -83,6 +83,25 @@ public function getInternationalReport(Request $request)
 
     return response()->json($response);
 }
+
+
+
+// -----------------------------
+// Get 6 regional compliance reports
+// Usage: /api/zoya/regional-reports?region=GB
+// -----------------------------
+public function getRegionalReports(Request $request)
+{
+    $region = $request->query('region');
+    if (!$region) {
+        return response()->json(['error' => 'Region is required (Example: GB)'], 400);
+    }
+
+    $nextToken = $request->query('nextToken', null);
+
+    return response()->json($this->zoya->getRegionalReports($region, $nextToken));
+}
+
 
 
 }
