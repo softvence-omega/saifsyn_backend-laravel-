@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\FirebaseAuthController;
 use App\Http\Controllers\Zoya\ZoyaReportController;
 use App\Http\Controllers\Subscription\PlanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OurAnalysisController;
 
 
 Route::prefix('v1')->group(function () {
@@ -46,6 +47,17 @@ Route::prefix('v1')->group(function () {
 });
 
 
+
+
+
+//OurAnalysisController
+Route::prefix('analyses')->group(function () {
+    Route::get('/', [OurAnalysisController::class, 'index']);
+    Route::post('/', [OurAnalysisController::class, 'store']);
+    Route::get('{id}', [OurAnalysisController::class, 'show']);
+    Route::put('{id}', [OurAnalysisController::class, 'update']);
+    Route::delete('{id}', [OurAnalysisController::class, 'destroy']);
+});
 
 
 //news part
