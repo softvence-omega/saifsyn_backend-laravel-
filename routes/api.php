@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\TermsAndConditionController;
 use App\Http\Controllers\Auth\FirebaseAuthController;
 use App\Http\Controllers\Zoya\ZoyaReportController;
+use App\Http\Controllers\Subscription\PlanController;
 
 
 Route::prefix('v1')->group(function () {
@@ -37,6 +38,12 @@ Route::prefix('v1')->group(function () {
     // Protected Routes (Require Auth)
     // ----------------------------
     Route::middleware('auth:sanctum')->group(function () {
+
+
+   Route::prefix('subscriptions')->group(function () {
+    Route::apiResource('', PlanController::class)->parameters(['' => 'id']);
+});
+
 
     // routes/api.php
 Route::prefix('zoya')->group(function () {

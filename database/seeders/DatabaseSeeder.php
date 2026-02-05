@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesTableSeeder::class,
             TermsAndConditionSeeder::class,
+            SubscriptionSeeder::class,
         ]);
 
         // Create users
