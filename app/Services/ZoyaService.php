@@ -123,6 +123,43 @@ public function getAllCompliantStocks($nextToken = null)
         return $this->sendQuery($query);
     }
 
+
+
+
+
+    // -----------------------------
+// Get shariah compliance report for NON-US stock
+// -----------------------------
+public function getInternationalReport($symbol)
+{
+    $query = '
+    query GetInternationalReport {
+      advancedCompliance {
+        report(input: {
+          symbol: "' . $symbol . '",
+          methodology: AAOIFI
+        }) {
+          symbol
+          rawSymbol
+          name
+          figi
+          exchange
+          status
+          reportDate
+          businessScreen
+          financialScreen
+          ... on AAOIFIReport {
+            debtToMarketCapRatio
+            securitiesToMarketCapRatio
+          }
+        }
+      }
+    }';
+
+    return $this->sendQuery($query);
+}
+
+
     // -----------------------------
     // Helper function to send GraphQL request
     // -----------------------------

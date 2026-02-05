@@ -60,4 +60,29 @@ class ZoyaReportController extends Controller
 
         return response()->json($this->zoya->getAdvancedReport($symbol));
     }
+
+
+
+
+     // -----------------------------
+// Get NON-US / International stock compliance report
+// Usage: /api/zoya/international-report?symbol=0R0K-LN
+// -----------------------------
+public function getInternationalReport(Request $request)
+{
+    $symbol = $request->query('symbol');
+
+    if (!$symbol) {
+        return response()->json([
+            'error' => 'Symbol is required (Example: 0R0K-LN)'
+        ], 400);
+    }
+
+    // Directly return server response without forcing nulls
+    $response = $this->zoya->getInternationalReport($symbol);
+
+    return response()->json($response);
+}
+
+
 }

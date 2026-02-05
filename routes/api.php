@@ -44,6 +44,10 @@ Route::prefix('zoya')->group(function () {
     Route::get('reports', [ZoyaReportController::class, 'getAllReports'])->name('zoya.all.reports');
     Route::get('compliant-stocks', [ZoyaReportController::class, 'getAllCompliantStocks'])->name('zoya.compliant.stocks');
     Route::get('advanced-report', [ZoyaReportController::class, 'getAdvancedReport'])->name('zoya.advanced.report');
+    Route::get('international-report', [ZoyaReportController::class, 'getInternationalReport'])
+    ->name('zoya.international.report');
+
+
 });
 
 
