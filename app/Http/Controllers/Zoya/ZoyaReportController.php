@@ -102,6 +102,15 @@ public function getRegionalReports(Request $request)
     return response()->json($this->zoya->getRegionalReports($region, $nextToken));
 }
 
+// -----------------------------
+// Get 7 MENAS regional compliance reports
+// 
+// -----------------------------
+public function getMENAScreens()
+{
+    return response()->json($this->zoya->getMENAScreens());
+}
+
 
 
 }

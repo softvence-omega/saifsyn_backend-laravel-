@@ -208,6 +208,31 @@ public function getRegionalReports($region, $nextToken = null)
 
 
 
+
+// -----------------------------
+// Get all compliant stocks from MENA regions
+// -----------------------------
+public function getMENAScreens()
+{
+    $query = '
+    query ListMENAScreens {
+      advancedCompliance {
+        menaScreens {
+          rawSymbol
+          name
+          exchange
+          region
+          status
+        }
+      }
+    }';
+
+    return $this->sendQuery($query);
+}
+
+
+
+
     // -----------------------------
     // Helper function to send GraphQL request
     // -----------------------------

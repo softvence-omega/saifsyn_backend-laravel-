@@ -49,7 +49,9 @@ Route::prefix('zoya')->group(function () {
      Route::get('regional-reports', [ZoyaReportController::class, 'getRegionalReports'])
         ->name('zoya.regional.reports');
 
-
+ // Get all compliant stocks from MENA regions
+    Route::get('mena-screens', [ZoyaReportController::class, 'getMENAScreens'])
+        ->name('zoya.mena.screens');
 });
 
 
