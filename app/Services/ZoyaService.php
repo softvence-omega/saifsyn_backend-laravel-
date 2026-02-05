@@ -232,6 +232,45 @@ public function getMENAScreens()
 
 
 
+public function getETFReports($nextToken = null)
+{
+    $input = $nextToken ? "{ input: { nextToken: \"$nextToken\" } }" : "";
+
+    $query = '
+    query {
+        basicCompliance {
+            funds' . $input . ' {
+                items {
+                    symbol
+                    name
+                    status
+                    reportDate
+                    holdingsAsOfDate
+                }
+                nextToken
+            }
+        }
+    }';
+
+    return $this->sendQuery($query);
+}
+
+
+
+public function getRegions()
+{
+    $query = '
+    query {
+        advancedCompliance {
+            regions
+        }
+    }';
+
+    return $this->sendQuery($query);
+}
+
+
+
 
     // -----------------------------
     // Helper function to send GraphQL request

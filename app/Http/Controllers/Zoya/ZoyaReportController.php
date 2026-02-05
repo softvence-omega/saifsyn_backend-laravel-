@@ -112,5 +112,28 @@ public function getMENAScreens()
 }
 
 
+// -----------------------------
+// Get 8 ETFReports
+// 
+// -----------------------------
+public function getETFReports(Request $request)
+{
+    $nextToken = $request->query('nextToken', null);
+
+    return response()->json($this->zoya->getETFReports($nextToken));
+}
+
+
+
+// -----------------------------
+// Get 9 aVAIBLE
+// 
+// -----------------------------
+
+public function getRegions()
+{
+    return response()->json($this->zoya->getRegions());
+}
+
 
 }
