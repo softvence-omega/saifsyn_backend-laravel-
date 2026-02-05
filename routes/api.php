@@ -10,6 +10,7 @@ use App\Http\Controllers\Zoya\ZoyaReportController;
 use App\Http\Controllers\Subscription\PlanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OurAnalysisController;
+use App\Http\Controllers\WishlistController;
 
 
 Route::prefix('v1')->group(function () {
@@ -58,6 +59,16 @@ Route::prefix('analyses')->group(function () {
     Route::put('{id}', [OurAnalysisController::class, 'update']);
     Route::delete('{id}', [OurAnalysisController::class, 'destroy']);
 });
+
+
+
+
+
+//Wishlist
+    Route::get('wishlist', [WishlistController::class, 'index']);
+    Route::post('wishlist', [WishlistController::class, 'store']);
+    Route::delete('wishlist/{id}', [WishlistController::class, 'destroy']);
+
 
 
 //news part
