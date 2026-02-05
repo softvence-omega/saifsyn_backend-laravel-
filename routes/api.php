@@ -11,6 +11,12 @@ use App\Http\Controllers\Subscription\PlanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OurAnalysisController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\Financial\IncomeController;
+use App\Http\Controllers\Financial\ExpenseController;
+use App\Http\Controllers\Financial\LoanController;
+use App\Http\Controllers\FinancialManagerController;
+use App\Http\Controllers\LoanCalculatorController;
+use App\Http\Controllers\WealthDashboardController;
 
 
 Route::prefix('v1')->group(function () {
@@ -47,7 +53,23 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('', PlanController::class)->parameters(['' => 'id']);
 });
 
+Route::prefix('financial')->group(function(){
+    Route::get('manager/{userId}', [FinancialManagerController::class,'index']);
+    Route::post('loan/calc', [LoanCalculatorController::class,'calculate']);
+    Route::get('wealth/{userId}', [WealthDashboardController::class,'index']);
+});
 
+
+Route::prefix('financial')->group(function () {
+    // Income
+    Route::apiResource('incomes', IncomeController::class);
+
+    // Expense
+    Route::apiResource('expenses', ExpenseController::class);
+
+    // Loan
+    Route::apiResource('loans', LoanController::class);
+});
 
 
 
