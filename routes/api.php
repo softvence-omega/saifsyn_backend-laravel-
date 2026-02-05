@@ -45,6 +45,19 @@ Route::prefix('v1')->group(function () {
 });
 
 
+
+
+//news part
+Route::prefix('news')->group(function () {
+    Route::get('/', [NewsController::class, 'index']);
+    Route::post('/', [NewsController::class, 'store']);
+    Route::get('{id}', [NewsController::class, 'show']);
+    Route::put('{id}', [NewsController::class, 'update']);
+    Route::delete('{id}', [NewsController::class, 'destroy']); // soft delete
+});
+
+
+
     // routes/api.php
 Route::prefix('zoya')->group(function () {
     Route::get('stock', [ZoyaReportController::class, 'getStockReport'])->name('zoya.stock.report');
