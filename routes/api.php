@@ -17,6 +17,7 @@ use App\Http\Controllers\Financial\LoanController;
 use App\Http\Controllers\FinancialManagerController;
 use App\Http\Controllers\LoanCalculatorController;
 use App\Http\Controllers\WealthDashboardController;
+use App\Http\Controllers\MessageController;
 
 
 Route::prefix('v1')->group(function () {
@@ -48,6 +49,14 @@ Route::prefix('v1')->group(function () {
     // ----------------------------
     Route::middleware('auth:sanctum')->group(function () {
  Route::post('/fcm-token', [UserController::class, 'updateFcmToken']);
+
+ //Messaing part
+
+  Route::post('/chat/send', [MessageController::class,'send']);
+    Route::get('/chat/{userId}', [MessageController::class,'chatWithUser']);
+    Route::delete('/chat/delete/{id}', [MessageController::class,'delete']);
+    Route::post('/chat/restore/{id}', [MessageController::class,'restore']);
+    
 
    Route::prefix('subscriptions')->group(function () {
     Route::apiResource('', PlanController::class)->parameters(['' => 'id']);
