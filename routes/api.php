@@ -18,6 +18,7 @@ use App\Http\Controllers\FinancialManagerController;
 use App\Http\Controllers\LoanCalculatorController;
 use App\Http\Controllers\WealthDashboardController;
 use App\Http\Controllers\MessageController;
+use  App\Http\Controllers\PaymentController;
 
 
 Route::prefix('v1')->group(function () {
@@ -39,6 +40,16 @@ Route::prefix('v1')->group(function () {
 
    
 
+
+    // Stripe Webhook
+    Route::post('payment/webhook', [PaymentController::class, 'handleWebhook']);
+     Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/cancel', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
+
+
+
+
+
     // Public Route: Get Terms & Conditions
     Route::get('terms', [TermsAndConditionController::class, 'get']);
     //Zoya Controller
@@ -48,6 +59,14 @@ Route::prefix('v1')->group(function () {
     // Protected Routes (Require Auth)
     // ----------------------------
     Route::middleware('auth:sanctum')->group(function () {
+
+
+      //subscription payment
+        Route::post('/payment/process', [PaymentController::class, 'processPayment']);
+        Route::get('/all-payments', [PaymentController::class, 'index'])->name('payment.index');//admin show all
+
+
+
  Route::post('/fcm-token', [UserController::class, 'updateFcmToken']);
 
  //Messaing part
