@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/var/www/html
     ports:
-      - "9958:8000"
+      - "8081:8000"
     environment:
       APP_NAME: Thari
       APP_ENV: local

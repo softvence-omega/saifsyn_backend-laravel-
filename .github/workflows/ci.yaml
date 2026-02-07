@@ -42,7 +42,7 @@ jobs:
           key:  ${{ secrets.VPS_KEY }}
           port: 9951
           script: |
-            cd backend  
+            cd /saifsyn/backend_laravel  
             docker compose down --remove-orphans
             docker compose rm -f
             docker compose pull
