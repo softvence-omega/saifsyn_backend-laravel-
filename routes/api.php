@@ -81,14 +81,12 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('', PlanController::class)->parameters(['' => 'id']);
 });
 
-Route::prefix('financial')->group(function(){
+Route::prefix('financial')->group(function() {
+    // Manager and Wealth
     Route::get('manager/{userId}', [FinancialManagerController::class,'index']);
     Route::post('loan/calc', [LoanCalculatorController::class,'calculate']);
     Route::get('wealth/{userId}', [WealthDashboardController::class,'index']);
-});
 
-
-Route::prefix('financial')->group(function () {
     // Income
     Route::apiResource('incomes', IncomeController::class);
 
@@ -98,6 +96,7 @@ Route::prefix('financial')->group(function () {
     // Loan
     Route::apiResource('loans', LoanController::class);
 });
+
 
 
 

@@ -32,9 +32,9 @@ class IncomeController extends Controller
         try {
             $request->validate([
                 'user_id' => 'required|exists:users,id',
-                'title' => 'required|string',
-                'amount' => 'required|numeric',
-                'date' => 'required|date',
+                'title' => 'nullable|string',
+                'amount' => 'nullable|numeric',
+                'date' => 'nullable|date',
             ]);
 
             $income = Income::create($request->only(['user_id','title','amount','date']));
