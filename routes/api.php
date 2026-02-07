@@ -109,7 +109,7 @@ Route::prefix('analyses')->group(function () {
     Route::get('/', [OurAnalysisController::class, 'index']);
     Route::post('/', [OurAnalysisController::class, 'store']);
     Route::get('{id}', [OurAnalysisController::class, 'show']);
-    Route::put('{id}', [OurAnalysisController::class, 'update']);
+    Route::post('{id}', [OurAnalysisController::class, 'update']);
     Route::delete('{id}', [OurAnalysisController::class, 'destroy']);
 });
 
