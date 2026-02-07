@@ -5,22 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Income;
 use App\Models\Expense;
 use App\Models\Loan;
+use Illuminate\Support\Facades\Auth;
 
 class WealthDashboardController extends Controller
 {
-    public function index($userId)
+    public function index()
     {
-        $totalIncome = Income::where('user_id',$userId)->sum('amount');
-        $totalExpense = Expense::where('user_id',$userId)->sum('amount');
-        $totalLoan = Loan::where('user_id',$userId)->sum('amount');
+        $userId = Auth::id();
+
+        $totalIncome = Income::where('user_id', $userId)->sum('amount');
+        $totalExpense = Expense::where('user_id', $userId)->sum('amount');
+        $totalLoan = Loan::where('user_id', $userId)->sum('amount');
 
         $netSavings = $totalIncome - $totalExpense - $totalLoan;
 
         return response()->json([
-            'totalIncome'=>$totalIncome,
-            'totalExpense'=>$totalExpense,
-            'totalLoan'=>$totalLoan,
-            'netSavings'=>$netSavings
+            'totalIncome' => $totalIncome,
+            'totalExpense' => $totalExpense,
+            'totalLoan' => $totalLoan,
+            'netSavings' => $netSavings
         ]);
     }
 }
