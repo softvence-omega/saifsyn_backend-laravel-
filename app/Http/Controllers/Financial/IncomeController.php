@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Financial;
 use App\Http\Controllers\Controller;
 use App\Models\Income;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IncomeController extends Controller
 {
@@ -25,32 +26,37 @@ class IncomeController extends Controller
     }
 
     // -----------------------------
-    // 2. Create a new income
-    // -----------------------------
-    public function store(Request $request)
-    {
-        try {
-            $request->validate([
-                'user_id' => 'required|exists:users,id',
-                'title' => 'nullable|string',
-                'amount' => 'nullable|numeric',
-                'date' => 'nullable|date',
-            ]);
+// 2. Create a new income
+// -----------------------------
+public function store(Request $request)
+{
+    try {
+        $request->validate([
+            'title' => 'nullable|string',
+            'amount' => 'nullable|numeric',
+            'date' => 'nullable|date',
+        ]);
 
-            $income = Income::create($request->only(['user_id','title','amount','date']));
+        // Use authenticated user's ID
+        $income = Income::create([
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'amount' => $request->amount,
+            'date' => $request->date,
+        ]);
 
-            return response()->json([
-                'message' => 'Income created successfully',
-                'income' => $income
-            ], 201);
+        return response()->json([
+            'message' => 'Income created successfully',
+            'income' => $income
+        ], 201);
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to create income',
-                'error' => $e->getMessage()
-            ], 500);
-        }
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Failed to create income',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
 
     // -----------------------------
     // 3. Show single income
@@ -70,36 +76,44 @@ class IncomeController extends Controller
         }
     }
 
+   
     // -----------------------------
-    // 4. Update existing income
-    // -----------------------------
-    public function update(Request $request, $id)
-    {
-        try {
-            $income = Income::findOrFail($id);
+// 4. Update existing income
+// -----------------------------
+public function update(Request $request, $id)
+{
+    try {
+        $income = Income::findOrFail($id);
 
-            $request->validate([
-                'title' => 'sometimes|required|string',
-                'amount' => 'sometimes|required|numeric',
-                'date' => 'sometimes|required|date',
-            ]);
-
-            $income->update($request->only(['title','amount','date']));
-
-            return response()->json([
-                'message' => 'Income updated successfully',
-                'income' => $income
-            ]);
-
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['message' => 'Income not found'], 404);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to update income',
-                'error' => $e->getMessage()
-            ], 500);
+        // Ensure the authenticated user owns this income
+        if ($income->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized to update this income'], 403);
         }
+
+        $request->validate([
+            'title' => 'sometimes|required|string',
+            'amount' => 'sometimes|required|numeric',
+            'date' => 'sometimes|required|date',
+        ]);
+
+        // Update only provided fields
+        $income->update($request->only(['title','amount','date']));
+
+        return response()->json([
+            'message' => 'Income updated successfully',
+            'income' => $income
+        ]);
+
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        return response()->json(['message' => 'Income not found'], 404);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Failed to update income',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
 
     // -----------------------------
     // 5. Soft delete income
