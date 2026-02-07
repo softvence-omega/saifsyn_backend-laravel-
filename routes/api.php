@@ -19,6 +19,7 @@ use App\Http\Controllers\LoanCalculatorController;
 use App\Http\Controllers\WealthDashboardController;
 use App\Http\Controllers\MessageController;
 use  App\Http\Controllers\PaymentController;
+use App\Http\Controllers\NewsController;
 
 
 Route::prefix('v1')->group(function () {
@@ -83,9 +84,12 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('financial')->group(function() {
     // Manager and Wealth
-    Route::get('manager/{userId}', [FinancialManagerController::class,'index']);
+    Route::get('manager', [FinancialManagerController::class, 'index']);
+
     Route::post('loan/calc', [LoanCalculatorController::class,'calculate']);
-    Route::get('wealth/{userId}', [WealthDashboardController::class,'index']);
+
+    Route::get('wealth', [WealthDashboardController::class, 'index']);
+
 
     // Income
     Route::apiResource('incomes', IncomeController::class);
