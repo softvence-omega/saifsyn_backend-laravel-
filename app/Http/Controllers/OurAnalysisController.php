@@ -3,128 +3,151 @@
 namespace App\Http\Controllers;
 
 use App\Models\OurAnalysis;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use App\Jobs\SendAnalysisNotification;
 
 class OurAnalysisController extends Controller
 {
     // -----------------------------
-    // List all analyses
+    // 1. List all analyses (paginated)
     // -----------------------------
     public function index()
     {
         try {
-            $analyses = OurAnalysis::all();
-            return response()->json($analyses);
-        } catch (\Exception $e) {
+            $analyses = OurAnalysis::orderBy('created_at', 'desc')->paginate(10);
+
+            // Add full image URL
+            $analyses->getCollection()->transform(function ($analysis) {
+                $analysis->image = $analysis->image ? asset('storage/' . $analysis->image) : null;
+                return $analysis;
+            });
+
             return response()->json([
-                'message' => 'Failed to fetch analyses',
-                'error' => $e->getMessage()
-            ], 500);
+                'success' => true,
+                'data' => $analyses
+            ]);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to fetch analyses', $e);
         }
     }
 
     // -----------------------------
-    // Show single analysis
+    // 2. Show single analysis
     // -----------------------------
     public function show($id)
     {
         try {
             $analysis = OurAnalysis::findOrFail($id);
-            return response()->json($analysis);
-        } catch (\Exception $e) {
+
+            // Full image URL
+            $analysis->image = $analysis->image ? asset('storage/' . $analysis->image) : null;
+
             return response()->json([
-                'message' => 'Analysis not found',
-                'error' => $e->getMessage()
-            ], 404);
+                'success' => true,
+                'data' => $analysis
+            ]);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Analysis not found', $e, 404);
         }
     }
 
     // -----------------------------
-    // Create new analysis
+    // 3. Create new analysis
     // -----------------------------
     public function store(Request $request)
     {
         try {
-            $request->validate([
+            $data = $request->validate([
                 'title' => 'required|string|unique:our_analyses,title',
                 'content' => 'required|string',
                 'image' => 'nullable|image|max:2048',
-                'status' => 'boolean',
+                'status' => 'nullable',
                 'published_at' => 'nullable|date',
             ]);
 
-            $data = $request->all();
+            // Convert status to boolean if provided
+            $data['status'] = isset($data['status']) ? filter_var($data['status'], FILTER_VALIDATE_BOOLEAN) : true;
 
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('analyses', 'public');
-                $data['image'] = $path;
-            }
-
+            // Slug generation
             $data['slug'] = Str::slug($data['title']);
 
+            // Image upload
+            if ($request->hasFile('image')) {
+                $data['image'] = $request->file('image')->store('analyses', 'public');
+            }
+
+            // Create analysis
             $analysis = OurAnalysis::create($data);
 
-            $this->sendFCMNotification($analysis);
+            // Dispatch FCM notification via Job
+            SendAnalysisNotification::dispatch($analysis);
+
+            // Full image URL
+            $analysis->image = $analysis->image ? asset('storage/' . $analysis->image) : null;
 
             return response()->json([
+                'success' => true,
                 'message' => 'Analysis created successfully',
-                'analysis' => $analysis
+                'data' => $analysis
             ], 201);
 
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to create analysis',
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->errorResponse('Failed to create analysis', $e);
         }
     }
 
     // -----------------------------
-    // Update existing analysis
+    // 4. Update existing analysis
     // -----------------------------
     public function update(Request $request, $id)
     {
         try {
             $analysis = OurAnalysis::findOrFail($id);
 
-            $request->validate([
+            $data = $request->validate([
                 'title' => 'sometimes|required|string|unique:our_analyses,title,' . $id,
                 'content' => 'sometimes|required|string',
                 'image' => 'nullable|image|max:2048',
-                'status' => 'sometimes|boolean',
+                'status' => 'sometimes',
                 'published_at' => 'nullable|date',
             ]);
 
-            $data = $request->all();
-
-            if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('analyses', 'public');
-                $data['image'] = $path;
+            // Convert status to boolean if provided
+            if (isset($data['status'])) {
+                $data['status'] = filter_var($data['status'], FILTER_VALIDATE_BOOLEAN);
             }
 
+            // Image upload
+            if ($request->hasFile('image')) {
+                $data['image'] = $request->file('image')->store('analyses', 'public');
+            }
+
+            // Slug update if title changes
             if (isset($data['title'])) {
                 $data['slug'] = Str::slug($data['title']);
             }
 
             $analysis->update($data);
 
+            // Full image URL
+            $analysis->image = $analysis->image ? asset('storage/' . $analysis->image) : null;
+
             return response()->json([
+                'success' => true,
                 'message' => 'Analysis updated successfully',
-                'analysis' => $analysis
+                'data' => $analysis
             ]);
 
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to update analysis',
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->errorResponse('Failed to update analysis', $e);
         }
     }
 
     // -----------------------------
-    // Soft delete analysis
+    // 5. Soft delete analysis
     // -----------------------------
     public function destroy($id)
     {
@@ -133,41 +156,23 @@ class OurAnalysisController extends Controller
             $analysis->delete();
 
             return response()->json([
+                
                 'message' => 'Analysis deleted successfully'
             ]);
-
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to delete analysis',
-                'error' => $e->getMessage()
-            ], 500);
+            return $this->errorResponse('Failed to delete analysis', $e);
         }
     }
 
     // -----------------------------
-    // Send FCM notification
+    // 6. Standardized error response
     // -----------------------------
-    protected function sendFCMNotification($analysis)
+    private function errorResponse($message, \Exception $e, $status = 500)
     {
-        $tokens = \App\Models\User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
-        if (empty($tokens)) return;
-
-        $notification = [
-            'registration_ids' => $tokens,
-            'notification' => [
-                'title' => $analysis->title,
-                'body' => \Str::limit($analysis->content, 100),
-                'click_action' => url('/analysis/' . $analysis->slug),
-            ],
-            'data' => [
-                'analysis_id' => $analysis->id,
-                'slug' => $analysis->slug,
-            ]
-        ];
-
-        Http::withHeaders([
-            'Authorization' => 'key=' . config('services.fcm.key'),
-            'Content-Type' => 'application/json',
-        ])->post('https://fcm.googleapis.com/fcm/send', $notification);
+        return response()->json([
+            'success' => false,
+            'message' => $message,
+            'error' => $e->getMessage()
+        ], $status);
     }
 }

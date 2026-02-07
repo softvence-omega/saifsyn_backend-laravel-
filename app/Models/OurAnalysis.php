@@ -17,4 +17,10 @@ class OurAnalysis extends Model
         'status',
         'published_at',
     ];
+
+
+    protected $casts = [
+    'status' => 'boolean',
+];
+
 }
