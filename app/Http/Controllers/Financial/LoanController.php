@@ -10,20 +10,75 @@ use Illuminate\Support\Facades\Auth;
 class LoanController extends Controller
 {
     // -----------------------------
-    // 1. Show all loans of authenticated user
+    // 1. Show all loans (with date filter & pagination)
     // -----------------------------
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $loans = Loan::where('user_id', Auth::id())->get();
-            return response()->json($loans);
+            $query = Loan::where('user_id', Auth::id());
+
+            // Validate from_date & to_date
+            if ($request->filled('from_date')) {
+                $from = $request->from_date;
+                if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $from)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Invalid from_date format. Use YYYY-MM-DD'
+                    ], 422);
+                }
+                $query->whereDate('start_date', '>=', $from);
+            }
+
+            if ($request->filled('to_date')) {
+                $to = $request->to_date;
+                if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $to)) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Invalid to_date format. Use YYYY-MM-DD'
+                    ], 422);
+                }
+                $query->whereDate('start_date', '<=', $to);
+            }
+
+            // Pagination
+            $perPage = $request->input('per_page', 10);
+            $loans = $query->orderBy('start_date', 'desc')->paginate($perPage);
+
+            // Check if empty after filter
+            if ($loans->isEmpty()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'No loans found for the selected date(s)',
+                    'data' => [],
+                    'pagination' => [
+                        'total' => 0,
+                        'per_page' => $perPage,
+                        'current_page' => $request->input('page', 1),
+                        'last_page' => 0,
+                    ]
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $loans->items(),
+                'pagination' => [
+                    'total' => $loans->total(),
+                    'per_page' => $loans->perPage(),
+                    'current_page' => $loans->currentPage(),
+                    'last_page' => $loans->lastPage(),
+                ]
+            ]);
+
         } catch (\Exception $e) {
             return response()->json([
+                'success' => false,
                 'message' => 'Failed to fetch loans',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+
 
     // -----------------------------
     // 2. Create a new loan

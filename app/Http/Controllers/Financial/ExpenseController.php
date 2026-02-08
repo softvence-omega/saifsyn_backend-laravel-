@@ -10,20 +10,77 @@ use Illuminate\Support\Facades\Auth;
 class ExpenseController extends Controller
 {
     // -----------------------------
-    // 1. Show all expenses for authenticated user
-    // -----------------------------
-    public function index()
-    {
-        try {
-            $expenses = Expense::where('user_id', Auth::id())->get();
-            return response()->json($expenses);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message'=>'Failed to fetch expenses',
-                'error'=>$e->getMessage()
-            ], 500);
+// 1. Show all expenses (with date filter & pagination)
+// -----------------------------
+public function index(Request $request)
+{
+    try {
+        $query = Expense::where('user_id', Auth::id());
+
+        // Validate from_date & to_date formats
+        if ($request->filled('from_date')) {
+            $from = $request->from_date;
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $from)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid from_date format. Use YYYY-MM-DD'
+                ], 422);
+            }
+            $query->whereDate('date', '>=', $from);
         }
+
+        if ($request->filled('to_date')) {
+            $to = $request->to_date;
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $to)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid to_date format. Use YYYY-MM-DD'
+                ], 422);
+            }
+            $query->whereDate('date', '<=', $to);
+        }
+
+        // Pagination
+        $perPage = $request->input('per_page', 10);
+        $expenses = $query->orderBy('date', 'desc')->paginate($perPage);
+
+        // Check if empty after filter
+        if ($expenses->isEmpty()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'No expenses found for the selected date(s)',
+                'data' => [],
+                'pagination' => [
+                    'total' => 0,
+                    'per_page' => $perPage,
+                    'current_page' => $request->input('page', 1),
+                    'last_page' => 0,
+                ]
+            ]);
+        }
+
+        // Normal response with pagination
+        return response()->json([
+            'success' => true,
+            'data' => $expenses->items(),
+            'pagination' => [
+                'total' => $expenses->total(),
+                'per_page' => $expenses->perPage(),
+                'current_page' => $expenses->currentPage(),
+                'last_page' => $expenses->lastPage(),
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch expenses',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
+
 
     // -----------------------------
     // 2. Create a new expense

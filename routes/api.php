@@ -20,6 +20,8 @@ use App\Http\Controllers\WealthDashboardController;
 use App\Http\Controllers\MessageController;
 use  App\Http\Controllers\PaymentController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AboutPageController;
 
 
 Route::prefix('v1')->group(function () {
@@ -54,13 +56,44 @@ Route::prefix('v1')->group(function () {
     // Public Route: Get Terms & Conditions
     Route::get('terms', [TermsAndConditionController::class, 'get']);
     //Zoya Controller
+
+    //user contact with admin via email
+
+    Route::post('contact',[ContactController::class,'store']);
    
+//Aboutpage
+
+Route::get('/about', [AboutPageController::class, 'show']);
+
 
     // ----------------------------
     // Protected Routes (Require Auth)
     // ----------------------------
     Route::middleware('auth:sanctum')->group(function () {
 
+
+                // -----------------------------
+            // Admin: View all users
+            // -----------------------------
+            Route::get('/users', [UserController::class, 'index']);
+                
+
+            // -----------------------------
+            // User: View own profile
+            // -----------------------------
+            Route::get('/profile', [UserController::class, 'profile']);
+            
+            // -----------------------------
+            // User: Update own profile
+            // -----------------------------
+            Route::put('/profile', [UserController::class, 'updateProfile']);
+   
+            Route::put('/profile/password', [UserController::class, 'changePassword']);
+    
+
+        //about page
+        Route::post('/about', [AboutPageController::class, 'store']);
+        Route::delete('/about', [AboutPageController::class, 'destroy']);
 
       //subscription payment
         Route::post('/payment/process', [PaymentController::class, 'processPayment']);

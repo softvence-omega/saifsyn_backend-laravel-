@@ -10,20 +10,79 @@ use Illuminate\Support\Facades\Auth;
 class IncomeController extends Controller
 {
     // -----------------------------
-    // 1. Show all incomes
+    // 1. Show all incomes (with date filter & pagination)
     // -----------------------------
-    public function index()
-    {
-        try {
-            $incomes = Income::all();
-            return response()->json($incomes);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to fetch incomes',
-                'error' => $e->getMessage()
-            ], 500);
+   public function index(Request $request)
+{
+    try {
+        $query = Income::where('user_id', Auth::id());
+
+        // Validate from_date & to_date formats
+        if ($request->filled('from_date')) {
+            $from = $request->from_date;
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $from)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid from_date format. Use YYYY-MM-DD'
+                ], 422);
+            }
+            $query->whereDate('date', '>=', $from);
         }
+
+        if ($request->filled('to_date')) {
+            $to = $request->to_date;
+            if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $to)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid to_date format. Use YYYY-MM-DD'
+                ], 422);
+            }
+            $query->whereDate('date', '<=', $to);
+        }
+
+        // Pagination
+        $perPage = $request->input('per_page', 10);
+        $incomes = $query->orderBy('date', 'desc')->paginate($perPage);
+
+        // Check if empty after filter
+        if ($incomes->isEmpty()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'No incomes found for the selected date(s)',
+                'data' => [],
+                'pagination' => [
+                    'total' => 0,
+                    'per_page' => $perPage,
+                    'current_page' => $request->input('page', 1),
+                    'last_page' => 0,
+                ]
+            ]);
+        }
+
+        // Normal response with pagination
+        return response()->json([
+            'success' => true,
+            'data' => $incomes->items(),
+            'pagination' => [
+                'total' => $incomes->total(),
+                'per_page' => $incomes->perPage(),
+                'current_page' => $incomes->currentPage(),
+                'last_page' => $incomes->lastPage(),
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch incomes',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
+
+
+
 
     // -----------------------------
 // 2. Create a new income
