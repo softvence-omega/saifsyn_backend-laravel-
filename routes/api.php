@@ -71,6 +71,26 @@ Route::get('/about', [AboutPageController::class, 'show']);
     // ----------------------------
     Route::middleware('auth:sanctum')->group(function () {
 
+
+                // -----------------------------
+            // Admin: View all users
+            // -----------------------------
+            Route::get('/users', [UserController::class, 'index']);
+                
+
+            // -----------------------------
+            // User: View own profile
+            // -----------------------------
+            Route::get('/profile', [UserController::class, 'profile']);
+            
+            // -----------------------------
+            // User: Update own profile
+            // -----------------------------
+            Route::put('/profile', [UserController::class, 'updateProfile']);
+   
+            Route::put('/profile/password', [UserController::class, 'changePassword']);
+    
+
         //about page
         Route::post('/about', [AboutPageController::class, 'store']);
         Route::delete('/about', [AboutPageController::class, 'destroy']);
