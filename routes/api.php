@@ -21,6 +21,7 @@ use App\Http\Controllers\MessageController;
 use  App\Http\Controllers\PaymentController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AboutPageController;
 
 
 Route::prefix('v1')->group(function () {
@@ -60,12 +61,19 @@ Route::prefix('v1')->group(function () {
 
     Route::post('contact',[ContactController::class,'store']);
    
+//Aboutpage
+
+Route::get('/about', [AboutPageController::class, 'show']);
+
 
     // ----------------------------
     // Protected Routes (Require Auth)
     // ----------------------------
     Route::middleware('auth:sanctum')->group(function () {
 
+        //about page
+        Route::post('/about', [AboutPageController::class, 'store']);
+        Route::delete('/about', [AboutPageController::class, 'destroy']);
 
       //subscription payment
         Route::post('/payment/process', [PaymentController::class, 'processPayment']);
