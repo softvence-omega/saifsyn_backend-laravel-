@@ -20,6 +20,7 @@ use App\Http\Controllers\WealthDashboardController;
 use App\Http\Controllers\MessageController;
 use  App\Http\Controllers\PaymentController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ContactController;
 
 
 Route::prefix('v1')->group(function () {
@@ -54,6 +55,10 @@ Route::prefix('v1')->group(function () {
     // Public Route: Get Terms & Conditions
     Route::get('terms', [TermsAndConditionController::class, 'get']);
     //Zoya Controller
+
+    //user contact with admin via email
+
+    Route::post('contact',[ContactController::class,'store']);
    
 
     // ----------------------------

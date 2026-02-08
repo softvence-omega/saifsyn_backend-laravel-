@@ -1,0 +1,2446 @@
+{
+  "info": {
+    "_postman_id": "6b415d88-97b1-4524-bf17-255e96db8502",
+    "name": "Saifsyn",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "36568569",
+    "_collection_link": "https://go.postman.co/collection/36568569-6b415d88-97b1-4524-bf17-255e96db8502?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"sikagey423@azeriom.com\",\r\n    \"password\": \"Password@123\",\r\n    \"password_confirmation\": \"Password@123\",\r\n    \"role\": \"user\",\r\n    \"terms_accepted\": true\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/register",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "otp-verify(register otp,resend otp,forgot otp all otp verify route)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"sikagey423@azeriom.com\",\r\n    \"otp\": \"95028\"\r\n   \r\n}\r\n"
+            },
+            "url": {
+              "raw": "{{url}}/verify-otp",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "verify-otp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"admin@example.com\",\r\n  \"password\": \"Password123!\"\r\n\r\n\r\n  //user\r\n  \r\n  //\"email\": \"user@example.com\",\r\n  //\"password\": \"Password123!\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/login",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "resend-otp",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"hecofab110@oremal.com\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/resend-otp",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "resend-otp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "forgot-password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"takifew930@noihse.com\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/forgot-password",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "forgot-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "reset-password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n{\r\n  \"email\": \"takifew930@noihse.com\",\r\n  \"new_password\": \"NewPass@123\",\r\n  \"new_password_confirmation\": \"NewPass@123\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/reset-password",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "reset-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "fcm-token-save-for notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fcm_token\": \"your_device_fcm_token_here\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/fcm-token",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "fcm-token"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscription Plan",
+      "item": [
+        {
+          "name": "show all",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/subscriptions",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "subscriptions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show plan(single)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/subscriptions/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "subscriptions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update plan",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Elite Pro Updated\",\r\n    \"description\": \"Updated description for Elite Pro plan\",\r\n    \"price\": 60.00,\r\n    \"features\": [\r\n        \"Advanced booking tools\",\r\n        \"Payment integration\",\r\n        \"Priority support\"\r\n    ],\r\n    \"duration_type\": \"month\",\r\n    \"duration_value\": 1,\r\n    \"is_popular\": true,\r\n    \"status\": true\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/subscriptions/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "subscriptions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete plan",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/subscriptions/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "subscriptions",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Terms and Condition",
+      "item": [
+        {
+          "name": "show",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{url}}/terms",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "terms"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "edit",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/terms",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "terms"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Zoya External Api all",
+      "item": [
+        {
+          "name": "test",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query GetAdvancedReport {\r\n  advancedCompliance {\r\n    report(input: {\r\n      symbol: \"AMD\",\r\n      methodology: AAOIFI\r\n    }) {\r\n      symbol\r\n      rawSymbol\r\n      name\r\n      figi\r\n      exchange\r\n      status\r\n      reportDate\r\n      businessScreen\r\n      financialScreen\r\n      compliantRevenue\r\n      nonCompliantRevenue\r\n      questionableRevenue\r\n      ... on AAOIFIReport {\r\n        securitiesToMarketCapRatio \r\n        debtToMarketCapRatio \r\n      }\r\n    }\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "https://sandbox-api.zoya.finance/graphql",
+              "protocol": "https",
+              "host": [
+                "sandbox-api",
+                "zoya",
+                "finance"
+              ],
+              "path": [
+                "graphql"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.specific stock",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zoya/stock?symbol=AMD",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zoya",
+                "stock"
+              ],
+              "query": [
+                {
+                  "key": "symbol",
+                  "value": "AMD"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.ratings for the US market",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zoya/reports",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zoya",
+                "reports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.compliant stocks in the US market",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zoya/compliant-stocks? status=COMPLIANT",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zoya",
+                "compliant-stocks"
+              ],
+              "query": [
+                {
+                  "key": " status",
+                  "value": "COMPLIANT"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.compliance report for a specific stock",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zoya/advanced-report?symbol=AMD&methodology=AAOIFI",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zoya",
+                "advanced-report"
+              ],
+              "query": [
+                {
+                  "key": "symbol",
+                  "value": "AMD"
+                },
+                {
+                  "key": "methodology",
+                  "value": "AAOIFI"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5.compliance report for a non-US stock",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zoya/international-report?symbol=0R0K-LN&methodology=AAOIFI",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zoya",
+                "international-report"
+              ],
+              "query": [
+                {
+                  "key": "symbol",
+                  "value": "0R0K-LN"
+                },
+                {
+                  "key": "methodology",
+                  "value": "AAOIFI"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6.reports for a region",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zoya/regional-reports?region=GB&methodology=AAOIFI",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zoya",
+                "regional-reports"
+              ],
+              "query": [
+                {
+                  "key": "region",
+                  "value": "GB"
+                },
+                {
+                  "key": "methodology",
+                  "value": "AAOIFI"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "7.MENA regions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zoya/mena-screens",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zoya",
+                "mena-screens"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8.reports for ETFs",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zoya/etf-reports",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zoya",
+                "etf-reports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "9.available shariah compliance reports",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "sandbox-882313f5-ee28-48f2-9c1b-e78e86d8b134",
+                "type": "text",
+                "disabled": true
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zoya/regions",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zoya",
+                "regions"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Messaing",
+      "item": [
+        {
+          "name": "message-sent(user id reciver id)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"receiver_id\": 2,\r\n  \"message\": \"How are you\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/chat/send",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "chat",
+                "send"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show-message(user-id-reciver)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/ecmascript",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/chat/2",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "chat",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Stripe-Payment-system",
+      "item": [
+        {
+          "name": "payment",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"plan_id\": 2\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/payment/process",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "payment",
+                "process"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show-all-subcription-payment-histroy-(admin-panel)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url}}/all-payments",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "all-payments"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "News",
+      "item": []
+    },
+    {
+      "name": "Our Analysis",
+      "item": [
+        {
+          "name": "analysis-add",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Stock Market Insights Feb 2026eioiiu",
+                  "type": "text",
+                  "uuid": "09963bd3-689c-4c5c-adbc-0d1e20c9b1b5"
+                },
+                {
+                  "key": "content",
+                  "value": "The market is showing strong bullish trends in tech stocks...",
+                  "type": "text",
+                  "uuid": "e13fa83d-d053-471a-9d26-35537d6b8e55"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "417af08d-a61e-4a2a-8f27-f4418e869621",
+                  "src": "/C:/Users/rehan/Music/Image/image.png"
+                },
+                {
+                  "key": "status",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "699a2c82-e497-4cac-bf22-6f8266929729"
+                },
+                {
+                  "key": "published_at",
+                  "value": "2026-02-07",
+                  "type": "text",
+                  "uuid": "6597f026-bf34-4eb5-b574-0ae64c84fb57"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/analyses",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "analyses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show-all-income",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n"
+            },
+            "url": {
+              "raw": "{{url}}/analyses",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "analyses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "single-show",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n"
+            },
+            "url": {
+              "raw": "{{url}}/analyses/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "analyses",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "updatedd",
+                  "type": "text",
+                  "uuid": "d8afc789-b3ca-48f3-b5ab-1581f19072db"
+                },
+                {
+                  "key": "content",
+                  "value": "new",
+                  "type": "text",
+                  "uuid": "9884ba68-dd3d-45ad-9580-30baf7577b4e"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "d706ee4a-a070-49f7-afe9-0b4aec5499e8",
+                  "src": "/C:/Users/rehan/Music/Image/dummy-female-img.jpg"
+                },
+                {
+                  "key": "status",
+                  "value": "0",
+                  "type": "text",
+                  "uuid": "6db2d944-a518-4001-bac5-168e21e0b140"
+                },
+                {
+                  "key": "published_at",
+                  "value": "2026-02-07",
+                  "type": "text",
+                  "uuid": "6750a391-db3a-4b36-8ebd-b62d3c514fe5"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/analyses/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "analyses",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n"
+            },
+            "url": {
+              "raw": "{{url}}/analyses/3",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "analyses",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Watchlist",
+      "item": [
+        {
+          "name": "add-symbol",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"stock_symbol\": \"AAPL\"\r\n}\r\n"
+            },
+            "url": {
+              "raw": "{{url}}/wishlist",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "wishlist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/wishlist",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "wishlist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "remove",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/wishlist/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "wishlist",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Expense-Manager(Financial)",
+      "item": [
+        {
+          "name": "Income",
+          "item": [
+            {
+              "name": "income-add",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"Freelance Payment\",\r\n    \"amount\": 500,\r\n    \"date\": \"2026-02-07\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{url}}/financial/incomes",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "incomes"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "show-all-income",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/incomes",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "incomes"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "single-show",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/incomes/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "incomes",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n{\r\n    \"title\": \"Freelance Payment\",\r\n    \"amount\": 200,\r\n    \"date\": \"2026-02-07\"\r\n}\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/incomes/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "incomes",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/incomes/2",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "incomes",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Expense",
+          "item": [
+            {
+              "name": "expense-add",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"Freelance Payment\",\r\n    \"amount\": 200,\r\n    \"date\": \"2026-02-07\"\r\n}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{url}}/financial/expenses",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "expenses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "show-all-expenses",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/expenses",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "expenses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "single-show",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/expenses/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "expenses",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n{\r\n    \"title\": \"Freelance Payment\",\r\n    \"amount\": 200,\r\n    \"date\": \"2026-02-07\"\r\n}\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/incomes/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "incomes",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/expenses/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "expenses",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Loan",
+          "item": [
+            {
+              "name": "loan-add",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"title\": \"Personal Loan\",\r\n    \"amount\": 5000,\r\n    \"interest_rate\": 5.5,\r\n    \"repayment_period\": 12,\r\n    \"start_date\": \"2026-02-07\"\r\n}\r\n\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{url}}/financial/loans",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "show-all-loans",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/loans",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "loans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "single-show",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/loans/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "loans",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n{\r\n    \"title\": \"Personal Loan\",\r\n    \"amount\": 6000,\r\n    \"interest_rate\": 5.5,\r\n    \"repayment_period\": 12,\r\n    \"start_date\": \"2026-02-07\"\r\n}\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/loans/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "loans",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "delete",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n"
+                },
+                "url": {
+                  "raw": "{{url}}/financial/loans/1",
+                  "host": [
+                    "{{url}}"
+                  ],
+                  "path": [
+                    "financial",
+                    "loans",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "New Request",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "financial-manager-show-all",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/financial/manager",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "financial",
+                "manager"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "wealth total savings",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/financial/wealth",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "financial",
+                "wealth"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "loan calculation",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 5000,\r\n    \"interest_rate\": 5.5,\r\n    \"repayment_period\": 12\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/financial/loan/calc",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "financial",
+                "loan",
+                "calc"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "url",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "value": ""
+    },
+    {
+      "value": ""
+    }
+  ]
+}
