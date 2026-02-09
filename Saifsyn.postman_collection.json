@@ -1148,7 +1148,286 @@
     },
     {
       "name": "News",
-      "item": []
+      "item": [
+        {
+          "name": "add-news-manually-admin",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "New Feature Release",
+                  "type": "text",
+                  "uuid": "244f5da6-1f0b-4604-85a1-e5cb7ca6c2ed"
+                },
+                {
+                  "key": "description",
+                  "value": "We released a new feature today...",
+                  "type": "text",
+                  "uuid": "293236b0-98f1-4fa2-b9a6-34d742fcb633"
+                },
+                {
+                  "key": "category",
+                  "value": "Updates",
+                  "type": "text",
+                  "uuid": "bfbb504f-9fe4-42df-81ca-137cd76c91da"
+                },
+                {
+                  "key": "status",
+                  "value": "published",
+                  "type": "text",
+                  "uuid": "7f16f372-a723-4ecc-84be-e2b6e649a2d6"
+                },
+                {
+                  "key": "published_at",
+                  "value": "2026-02-07T12:00:00",
+                  "type": "text",
+                  "uuid": "74b28838-8f7c-41b0-b270-371e5383a0bd"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "937d46d5-6dc0-4b01-b838-aad11dbd4622",
+                  "src": "/C:/Users/rehan/Music/Image/dummy-female-img.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/news",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/news",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "news"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update-news-manually-admin Copy",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "New Feature Release.",
+                  "type": "text",
+                  "uuid": "244f5da6-1f0b-4604-85a1-e5cb7ca6c2ed"
+                },
+                {
+                  "key": "description",
+                  "value": "We released a new feature today...",
+                  "type": "text",
+                  "uuid": "293236b0-98f1-4fa2-b9a6-34d742fcb633"
+                },
+                {
+                  "key": "category",
+                  "value": "Updates",
+                  "type": "text",
+                  "uuid": "bfbb504f-9fe4-42df-81ca-137cd76c91da"
+                },
+                {
+                  "key": "status",
+                  "value": "published",
+                  "type": "text",
+                  "uuid": "7f16f372-a723-4ecc-84be-e2b6e649a2d6"
+                },
+                {
+                  "key": "published_at",
+                  "value": "2026-02-07T12:00:00",
+                  "type": "text",
+                  "uuid": "74b28838-8f7c-41b0-b270-371e5383a0bd"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "937d46d5-6dc0-4b01-b838-aad11dbd4622",
+                  "src": "/C:/Users/rehan/Music/Image/dummy-female-img.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/news/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "news",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "New Feature Release",
+                  "type": "text",
+                  "uuid": "244f5da6-1f0b-4604-85a1-e5cb7ca6c2ed",
+                  "disabled": true
+                },
+                {
+                  "key": "description",
+                  "value": "We released a new feature today...",
+                  "type": "text",
+                  "uuid": "293236b0-98f1-4fa2-b9a6-34d742fcb633",
+                  "disabled": true
+                },
+                {
+                  "key": "category",
+                  "value": "Updates",
+                  "type": "text",
+                  "uuid": "bfbb504f-9fe4-42df-81ca-137cd76c91da",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "published",
+                  "type": "text",
+                  "uuid": "7f16f372-a723-4ecc-84be-e2b6e649a2d6",
+                  "disabled": true
+                },
+                {
+                  "key": "published_at",
+                  "value": "2026-02-07T12:00:00",
+                  "type": "text",
+                  "uuid": "74b28838-8f7c-41b0-b270-371e5383a0bd",
+                  "disabled": true
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "uuid": "937d46d5-6dc0-4b01-b838-aad11dbd4622",
+                  "src": "/C:/Users/rehan/Music/Image/dummy-female-img.jpg",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/news/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "news",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Our Analysis",
@@ -1227,7 +1506,7 @@
           "response": []
         },
         {
-          "name": "show-all-income",
+          "name": "show-all-analysis",
           "protocolProfileBehavior": {
             "disableBodyPruning": true
           },
@@ -1655,6 +1934,18 @@
                   "path": [
                     "financial",
                     "incomes"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_date",
+                      "value": "2026-02-01",
+                      "disabled": true
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "2026-03-28",
+                      "disabled": true
+                    }
                   ]
                 }
               },
@@ -1882,13 +2173,23 @@
                   "raw": "\r\n"
                 },
                 "url": {
-                  "raw": "{{url}}/financial/expenses",
+                  "raw": "{{url}}/financial/expenses?from_date=2026-01-01&to_date=2026-01-28",
                   "host": [
                     "{{url}}"
                   ],
                   "path": [
                     "financial",
                     "expenses"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_date",
+                      "value": "2026-01-01"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "2026-01-28"
+                    }
                   ]
                 }
               },
@@ -2123,6 +2424,18 @@
                   "path": [
                     "financial",
                     "loans"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_date",
+                      "value": "2026-02-01",
+                      "disabled": true
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "2026-03-28",
+                      "disabled": true
+                    }
                   ]
                 }
               },
@@ -2300,13 +2613,23 @@
               }
             ],
             "url": {
-              "raw": "{{url}}/financial/manager",
+              "raw": "{{url}}/financial/manager?from_date=2026-01-08&to_date=2026-03-28",
               "host": [
                 "{{url}}"
               ],
               "path": [
                 "financial",
                 "manager"
+              ],
+              "query": [
+                {
+                  "key": "from_date",
+                  "value": "2026-01-08"
+                },
+                {
+                  "key": "to_date",
+                  "value": "2026-03-28"
+                }
               ]
             }
           },
@@ -2339,13 +2662,23 @@
               }
             ],
             "url": {
-              "raw": "{{url}}/financial/wealth",
+              "raw": "{{url}}/financial/wealth?from_date=2026-02-01&to_date=2026-03-28",
               "host": [
                 "{{url}}"
               ],
               "path": [
                 "financial",
                 "wealth"
+              ],
+              "query": [
+                {
+                  "key": "from_date",
+                  "value": "2026-02-01"
+                },
+                {
+                  "key": "to_date",
+                  "value": "2026-03-28"
+                }
               ]
             }
           },
@@ -2395,6 +2728,307 @@
                 "financial",
                 "loan",
                 "calc"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Contact via email",
+      "item": [
+        {
+          "name": "contact-add",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"first_name\": \"Rehana\",\r\n  \"last_name\": \"Kabir\",\r\n  \"email\": \"sikagey423@azeriom.com\",\r\n  \"phone\": \"+8801712345678\",\r\n  \"message\": \"I would like to know more about your business details.\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/contact",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "contact"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "About-page",
+      "item": [
+        {
+          "name": "add and edit same route-(admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "description",
+                  "value": "We are a halal finance company",
+                  "type": "text",
+                  "uuid": "20f013ec-92ca-4095-9860-4cc0f9ea3ead"
+                },
+                {
+                  "key": "our_mission[]",
+                  "value": "Quality service",
+                  "type": "text",
+                  "uuid": "baa8940e-9298-4ed7-98cc-03e7ec060b0f"
+                },
+                {
+                  "key": "our_vision[]",
+                  "value": "Global leadership",
+                  "type": "text",
+                  "uuid": "d5ecd3e0-fc1f-40a2-9e25-b376e9a851e7"
+                },
+                {
+                  "key": "video",
+                  "type": "file",
+                  "uuid": "dbba1275-968e-4a66-936a-f4b883342fd6",
+                  "src": "/C:/Users/rehan/Music/video/7121778-hd_1080_1920_30fps.mp4"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{url}}/about",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "about"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show-all user",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/about",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "about"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User-Profile(SEETINGS)",
+      "item": [
+        {
+          "name": "show-all-user(admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/users",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user show own profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/profile",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update-profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Rehana Kabir Mim\",\r\n    \"phone\": \"+880123456789\"\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/profile",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "change-password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"current_password\": \"NewPassword456!\",\r\n  \"new_password\": \"Password123!\",\r\n  \"new_password_confirmation\": \"Password123!\"\r\n}\r\n\r\n"
+            },
+            "url": {
+              "raw": "{{url}}/profile/password",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "profile",
+                "password"
               ]
             }
           },
