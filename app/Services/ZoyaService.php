@@ -231,7 +231,7 @@ public function getMENAScreens()
 }
 
 
-
+//reports
 public function getETFReports($nextToken = null)
 {
     $input = $nextToken ? "{ input: { nextToken: \"$nextToken\" } }" : "";
@@ -253,6 +253,38 @@ public function getETFReports($nextToken = null)
     }';
 
     return $this->sendQuery($query);
+}
+
+
+
+
+
+//news from zoya
+public function getNews($nextToken = null)
+{
+    $input = $nextToken ? "{ input: { nextToken: \"$nextToken\" } }" : "";
+
+    $query = '
+    query {
+        news' . $input . ' {
+            items {
+                title
+                description
+                category
+                image
+                publishedAt
+            }
+            nextToken
+        }
+    }';
+
+    $response = $this->sendQuery($query);
+
+    // Debug log: uncomment if needed
+    // \Log::info('Zoya news response: ', $response);
+
+    // Safety: always return items array
+    return $response['data']['news']['items'] ?? [];
 }
 
 

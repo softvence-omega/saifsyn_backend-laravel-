@@ -157,16 +157,22 @@ Route::prefix('analyses')->group(function () {
 
 
 
-//news part
 Route::prefix('news')->group(function () {
+
+    // List news
+    // Frontend: only published
+    // Admin: ?all=1 -> show all
     Route::get('/', [NewsController::class, 'index']);
+
+    // Store news (admin manually)
     Route::post('/', [NewsController::class, 'store']);
-    Route::get('{id}', [NewsController::class, 'show']);
-    Route::put('{id}', [NewsController::class, 'update']);
-    Route::delete('{id}', [NewsController::class, 'destroy']); // soft delete
+
+    // Update news (admin)
+    Route::post('/{news}', [NewsController::class, 'update']);
+
+    // Soft delete news (admin)
+    Route::delete('/{news}', [NewsController::class, 'destroy']);
 });
-
-
 
     // routes/api.php
 Route::prefix('zoya')->group(function () {
