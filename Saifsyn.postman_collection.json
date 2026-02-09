@@ -2879,39 +2879,6 @@
       "name": "User-Profile(SEETINGS)",
       "item": [
         {
-          "name": "show-all-user(admin)",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{url}}/users",
-              "host": [
-                "{{url}}"
-              ],
-              "path": [
-                "users"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "user show own profile",
           "request": {
             "auth": {
@@ -3029,6 +2996,125 @@
               "path": [
                 "profile",
                 "password"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin-Dashboard",
+      "item": [
+        {
+          "name": "show-total user-active user",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/admin/dashboard/stats",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "admin",
+                "dashboard",
+                "stats"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show-all-user(admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/users",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "toggle-active-inactive",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/admin/users/2/toggle-status",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "admin",
+                "users",
+                "2",
+                "toggle-status"
               ]
             }
           },
