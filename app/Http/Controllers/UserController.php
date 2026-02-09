@@ -7,52 +7,169 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-
+use Illuminate\Support\Facades\DB;
 
 
 class UserController extends Controller
 {
 
 
-// -----------------------------
-    // Admin: List all users (with optional subscription filter)
-    // -----------------------------
-    public function index(Request $request)
+
+
+   /**
+     * Admin Dashboard Stats
+     */
+    public function dashboardStats()
     {
-        try {
-            $query = User::query();
+         try {
 
-            // Eager load subscriptions
-            $query->with('subscriptions');
+            // -------------------------
+            // USER STATS
+            // -------------------------
+            $totalUsers = User::count();
+            $totalActiveUsers = User::where('status', 1)->count();
+            $totalInactiveUsers = User::where('status', 0)->count();
 
-            // Filter only users who have paid subscription
-            if ($request->filled('subscribed') && $request->subscribed) {
-                $query->has('subscriptions');
-            }
+            // -------------------------
+            // PLAN STATS
+            // -------------------------
+            $totalPlans = DB::table('subscription_plans')->count();
+            $activePlans = DB::table('subscription_plans')->where('status', 1)->count();
+            $popularPlans = DB::table('subscription_plans')->where('is_popular', 1)->count();
 
-            // Pagination
-            $perPage = $request->input('per_page', 10);
-            $users = $query->orderBy('id', 'desc')->paginate($perPage);
+            // -------------------------
+            // REVENUE STATS (Payments only)
+            // -------------------------
+            $totalRevenue = DB::table('payments')->where('status', 'paid')->sum('amount');
 
+            $monthlyRevenue = DB::table('payments')
+                ->where('status', 'paid')
+                ->whereMonth('created_at', now()->month)
+                ->whereYear('created_at', now()->year)
+                ->sum('amount');
+
+            // -------------------------
+            // PLAN WISE REVENUE
+            // -------------------------
+            $planRevenue = DB::table('payments')
+                ->join('subscription_plans', 'payments.plan_id', '=', 'subscription_plans.id')
+                ->select(
+                    'subscription_plans.title',
+                    DB::raw('SUM(payments.amount) as total_revenue'),
+                    DB::raw('COUNT(payments.id) as total_users')
+                )
+                ->where('payments.status', 'paid')
+                ->groupBy('subscription_plans.title')
+                ->get();
+
+            // -------------------------
+            // RESPONSE
+            // -------------------------
             return response()->json([
                 'success' => true,
-                'data' => $users->items(),
-                'pagination' => [
-                    'total' => $users->total(),
-                    'per_page' => $users->perPage(),
-                    'current_page' => $users->currentPage(),
-                    'last_page' => $users->lastPage(),
+                'data' => [
+                    'users' => [
+                        'total_users' => $totalUsers,
+                        'active_users' => $totalActiveUsers,
+                        'inactive_users' => $totalInactiveUsers,
+                    ],
+
+                    'plans' => [
+                        'total_plans' => $totalPlans,
+                        'active_plans' => $activePlans,
+                        'popular_plans' => $popularPlans,
+                    ],
+
+                    'revenue' => [
+                        'total_revenue' => $totalRevenue,
+                        'monthly_revenue' => $monthlyRevenue,
+                        'plan_revenue' => $planRevenue,
+                    ],
                 ]
             ]);
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch users',
+                'message' => 'Failed to fetch dashboard stats',
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+
+    // -----------------------------
+// Admin: List all users (with optional payment filter)
+// -----------------------------
+public function index(Request $request)
+{
+    try {
+        $query = User::query();
+
+        // Only paid subscriptions
+        $query->with(['payments' => function($q) {
+            $q->where('status', 'paid')->with('plan'); // load plan details
+        }]);
+
+        // Pagination
+        $perPage = $request->input('per_page', 10);
+        $users = $query->orderBy('id', 'desc')->paginate($perPage);
+
+        // Format data
+        $data = $users->map(function($user){
+            return [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'status' => $user->status,
+                'purchases' => $user->payments->map(function($payment){
+                    return [
+                        'plan_title' => $payment->plan->title,
+                        'amount' => $payment->amount,
+                        'paid_at' => $payment->created_at->toDateTimeString(),
+                    ];
+                })
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'pagination' => [
+                'total' => $users->total(),
+                'per_page' => $users->perPage(),
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch users',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
+
+//admin manually can changes user active inactive
+public function toggleUserStatus($userId)
+{
+    $user = User::findOrFail($userId);
+
+    // status1 → 0, 0 → 1
+    $user->status = !$user->status;
+    $user->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'User status updated successfully',
+        'status' => $user->status ? 'active' : 'inactive',
+    ]);
+}
+
 
     // -----------------------------
     // User: Show own profile

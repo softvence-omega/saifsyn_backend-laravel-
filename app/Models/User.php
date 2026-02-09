@@ -45,6 +45,13 @@ class User extends Authenticatable
 
 
 
+
+    public function payments()
+{
+    return $this->hasMany(Payment::class, 'user_id');
+}
+
+
 public function subscriptions()
 {
     return $this->hasMany(\App\Models\Payment::class, 'user_id')->where('status', 'paid');
