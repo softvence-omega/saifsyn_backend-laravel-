@@ -89,6 +89,10 @@ Route::get('/about', [AboutPageController::class, 'show']);
             Route::put('/profile', [UserController::class, 'updateProfile']);
    
             Route::put('/profile/password', [UserController::class, 'changePassword']);
+            //admin dashbaod
+           Route::get('/admin/dashboard/stats', [UserController::class, 'dashboardStats']);
+
+    Route::patch('/admin/users/{userId}/toggle-status', [UserController::class, 'toggleUserStatus']);
     
 
         //about page
