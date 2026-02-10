@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Income;
 use App\Models\Expense;
 use App\Models\Loan;
+use App\Services\AiFinancialInsightService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FinancialManagerController extends Controller
 {
-    // -----------------------------
-    // 1. Get financial summary with negative balance handling
-    // -----------------------------
     public function index(Request $request)
     {
         try {
@@ -33,9 +31,7 @@ class FinancialManagerController extends Controller
                 ], 422);
             }
 
-            // -----------------------------
-            // Build filtered queries
-            // -----------------------------
+            // Build queries
             $incomeQuery = Income::where('user_id', $userId);
             $expenseQuery = Expense::where('user_id', $userId);
             $loanQuery = Loan::where('user_id', $userId);
@@ -52,9 +48,7 @@ class FinancialManagerController extends Controller
                 $loanQuery->whereDate('start_date', '<=', $request->to_date);
             }
 
-            // -----------------------------
-            // Calculate totals
-            // -----------------------------
+            // Totals
             $totalIncome = $incomeQuery->sum('amount');
             $totalExpense = $expenseQuery->sum('amount');
             $totalLoan = $loanQuery->sum('amount');
@@ -62,6 +56,18 @@ class FinancialManagerController extends Controller
             $netBalance = $totalIncome - $totalExpense;
             $balanceStatus = $netBalance >= 0 ? 'positive' : 'negative';
             $warningMessage = $netBalance < 0 ? 'Your balance is negative!' : null;
+
+            // AI Insights
+            $aiService = new AiFinancialInsightService();
+            $insights = $aiService->generateInsights($totalIncome, $totalExpense, $totalLoan, $netBalance);
+
+            // Realistic score calculation
+            if ($totalIncome + $totalExpense + $totalLoan == 0) {
+                $score = 50; // Neutral if no activity
+            } else {
+                $score = round(($netBalance / max($totalIncome, 1)) * 100);
+                $score = max(0, min(100, $score)); // Ensure 0-100
+            }
 
             return response()->json([
                 'success' => true,
@@ -71,6 +77,10 @@ class FinancialManagerController extends Controller
                 'netBalance' => $netBalance,
                 'balanceStatus' => $balanceStatus,
                 'warning' => $warningMessage,
+                'ai_insights' => [
+                    'score' => $score,
+                    'insights' => $insights
+                ]
             ]);
 
         } catch (\Exception $e) {
