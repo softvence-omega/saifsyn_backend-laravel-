@@ -23,6 +23,13 @@ return new class extends Migration
             $table->timestamp('otp_expire_at')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('terms_accepted')->default(false);
+             $table->foreignId('subscription_plan_id')->nullable();
+
+
+
+            // ✅ First time flag (boolean)
+            $table->boolean('is_first_time')
+                  ->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
