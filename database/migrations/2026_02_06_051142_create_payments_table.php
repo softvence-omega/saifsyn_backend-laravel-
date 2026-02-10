@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('transaction_id')->unique();
             $table->decimal('amount', 10, 2);
             $table->string('currency', 10)->default('usd');
+            $table->string('platform')->default('web'); // 'web','app'
+
             $table->string('status')->default('unpaid'); // unpaid, paid, failed
 
             $table->timestamps();
