@@ -4,25 +4,25 @@ namespace App\Services;
 
 class AiFinancialInsightService
 {
-    public function generateInsights($income, $expense, $loan, $netBalance)
+    public function generateInsights($income, $expense, $loan)
     {
         $insights = [];
 
-        // Avoid division by zero
-        $safeIncome = max($income, 1);
+        $safeIncome = max($income, 1); // avoid division by zero
 
-        // Expense vs Income %
+        // Expense %
         $expensePercent = round(($expense / $safeIncome) * 100);
 
-        // Loan vs Income %
+        // Loan %
         $loanPercent = round(($loan / $safeIncome) * 100);
 
-        // Savings %
-        $savingsPercent = round(($netBalance / $safeIncome) * 100);
+        // Real savings
+        $savings = $income - $expense - $loan;
+        $savingsPercent = round(($savings / $safeIncome) * 100);
 
-        // -----------------------------
+        // ---------------------------
         // Insights logic
-        // -----------------------------
+        // ---------------------------
         if ($income == 0 && $expense > 0) {
             $insights[] = "You have expenses but no income. Add income sources.";
         }
@@ -33,7 +33,7 @@ class AiFinancialInsightService
             $insights[] = "High spending ({$expensePercent}%). Try budgeting.";
         }
 
-        if ($netBalance < 0) {
+        if ($savings < 0) {
             $insights[] = "Negative balance. Focus on saving.";
         }
 
@@ -55,31 +55,24 @@ class AiFinancialInsightService
             $insights[] = "Low savings ({$savingsPercent}%). Try saving more.";
         }
 
-        // -----------------------------
-        // Score calculation
-        // -----------------------------
-        if ($income == 0 && $expense == 0 && $loan == 0 && $netBalance == 0) {
-            $score = 0; // realistic score when nothing exists
+        // Score calculation (0-100)
+        if ($income == 0 && $expense == 0 && $loan == 0) {
+            $score = 50;
             $insights = ["No financial activity recorded yet."];
         } else {
-            // Net balance vs income based score
-            $score = 50; // base score
-            if ($netBalance > 0) {
-                $score += min(50, round(($netBalance / $safeIncome) * 50));
-            } elseif ($netBalance < 0) {
-                $score -= min(50, round((abs($netBalance) / $safeIncome) * 50));
+            $score = 50;
+            if ($savings > 0) {
+                $score += min(50, round(($savings / $safeIncome) * 50));
+            } else {
+                $score -= min(50, round((abs($savings) / $safeIncome) * 50));
             }
-
-            // Ensure score is between 0 and 100
             $score = max(0, min(100, $score));
-        }
-
-        if (empty($insights)) {
-            $insights[] = "Your financial status looks stable.";
         }
 
         return [
             'score' => $score,
+            'savings' => $savings,
+            'savingsPercent' => $savingsPercent,
             'insights' => $insights,
         ];
     }
