@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: rehanamim/saifsyn:latest
+    image: arafat2025/saifsyn:latest
     platform: linux/amd64
     container_name: thari_laravel_app
     restart: always
@@ -27,11 +27,40 @@ services:
       DB_USERNAME: root
       DB_PASSWORD: strongpassword
       REDIS_HOST: thari_redis
-      SOCKET_URL: http://thari_socket_server:3000
+      SOCKET_URL: http://thari_socket_server:3015
     depends_on:
       - thari_mysql
       - thari_redis
       - thari_socket_server
+  queue:
+    image: arafat2025/saifsyn:latest
+    platform: linux/amd64
+    container_name: laravel_queue3
+    restart: unless-stopped
+    working_dir: /var/www/html
+    command: bash -lc "php artisan config:clear && php artisan cache:clear && php artisan queue:work --verbose --tries=3 --timeout=90"
+    env_file:
+      - .env
+    environment:
+      APP_NAME: Thari
+      APP_ENV: local
+      APP_DEBUG: true
+      APP_URL: http://localhost:9958
+      DB_CONNECTION: mysql
+      DB_HOST: thari_mysql
+      DB_PORT: 3306
+      DB_DATABASE: saifsyn
+      DB_USERNAME: root
+      DB_PASSWORD: strongpassword
+      REDIS_HOST: thari_redis
+      SOCKET_URL: http://thari_socket_server:3015
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      thari_mysql:
+        condition: service_healthy
+      app:
+        condition: service_started
 
   # MySQL
   thari_mysql:
@@ -45,6 +74,11 @@ services:
       - "3310:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   # Redis
   thari_redis:
@@ -58,12 +92,12 @@ services:
   thari_socket_server:
     image: node:18
     container_name: thari_socket_server
-    working_dir: /socket-server       # <-- proper indentation
+    working_dir: /socket-server # <-- proper indentation
     volumes:
       - ./socket-server:/socket-server
     command: bash -c "npm install && npm run start"
     ports:
-      - "3000:3000"
+      - "3015:3015"
     restart: always
 
 volumes:

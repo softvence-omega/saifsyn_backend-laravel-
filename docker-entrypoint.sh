@@ -9,6 +9,7 @@ echo "Installing composer dependencies..."
 composer install --optimize-autoloader --no-interaction --no-progress
 
 # Install npm dependencies and build assets
+# Checks if node_modules exists to avoid redundant installs
 if [ ! -d "node_modules" ]; then
     echo "Installing npm dependencies..."
     npm install --silent
@@ -18,10 +19,12 @@ echo "Building assets..."
 npm run build
 
 # Wait for MySQL to be ready
+# (Note: In a production script, you might want to add a loop here to actually check MySQL availability)
 
 echo "MySQL is up - continuing..."
 
 # Create .env file if it doesn't exist
+# Copies the example configuration to key the environment variables
 if [ ! -f .env ]; then
     echo "Creating .env file from .env.example..."
     cp .env.example .env
