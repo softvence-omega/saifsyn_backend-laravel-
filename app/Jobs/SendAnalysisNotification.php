@@ -10,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 
 class SendAnalysisNotification implements ShouldQueue
 {
@@ -31,6 +30,7 @@ class SendAnalysisNotification implements ShouldQueue
      */
     public function handle(): void
     {
+        // Get all users with FCM token
         $tokens = User::whereNotNull('fcm_token')->pluck('fcm_token')->toArray();
 
         if (empty($tokens)) return;
@@ -38,13 +38,13 @@ class SendAnalysisNotification implements ShouldQueue
         $notification = [
             'registration_ids' => $tokens,
             'notification' => [
-                'title' => $this->analysis->title,
-                'body' => Str::limit($this->analysis->content, 100),
-                'click_action' => url('/analysis/' . $this->analysis->slug),
+                'title' => "Stock Update: " . $this->analysis->symbol,
+                'body' => $this->analysis->note ?? 'New stock analysis available',
+                'click_action' => url('/analyses/' . $this->analysis->id), // link to analysis page
             ],
             'data' => [
                 'analysis_id' => $this->analysis->id,
-                'slug' => $this->analysis->slug,
+                'symbol' => $this->analysis->symbol,
             ]
         ];
 

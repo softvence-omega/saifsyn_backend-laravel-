@@ -3,56 +3,60 @@
 namespace App\Http\Controllers;
 
 use App\Models\OurAnalysis;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use App\Jobs\SendAnalysisNotification;
 
 class OurAnalysisController extends Controller
 {
-    // -----------------------------
-    // 1. List all analyses (paginated)
-    // -----------------------------
-    public function index()
-    {
-        try {
-            $analyses = OurAnalysis::orderBy('created_at', 'desc')->paginate(10);
+    
+// -----------------------------
+// 1. List all analyses (paginated)
+// -----------------------------
+public function index()
+{
+    try {
+        $perPage = 10; // Pagination limit
+        $analyses = OurAnalysis::orderBy('created_at', 'desc')->paginate($perPage);
 
-            // Add full image URL
-            $analyses->getCollection()->transform(function ($analysis) {
-                $analysis->image = $analysis->image ? asset('storage/' . $analysis->image) : null;
-                return $analysis;
-            });
+        // Only return actual analysis data, no image field
+        $data = $analyses->getCollection()->transform(function ($analysis) {
+            return $analysis;
+        });
 
-            return response()->json([
-                'success' => true,
-                'data' => $analyses
-            ]);
-        } catch (\Exception $e) {
-            return $this->errorResponse('Failed to fetch analyses', $e);
-        }
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'meta' => [
+                'current_page' => $analyses->currentPage(),
+                'last_page' => $analyses->lastPage(),
+                'per_page' => $analyses->perPage(),
+                'total' => $analyses->total(),
+            ],
+        ]);
+    } catch (\Exception $e) {
+        return $this->errorResponse('Failed to fetch analyses', $e);
     }
+}
 
-    // -----------------------------
-    // 2. Show single analysis
-    // -----------------------------
-    public function show($id)
-    {
-        try {
-            $analysis = OurAnalysis::findOrFail($id);
+// -----------------------------
+// 2. Show single analysis
+// -----------------------------
+public function show($id)
+{
+    try {
+        $analysis = OurAnalysis::findOrFail($id);
 
-            // Full image URL
-            $analysis->image = $analysis->image ? asset('storage/' . $analysis->image) : null;
+        // No image processing
 
-            return response()->json([
-                'success' => true,
-                'data' => $analysis
-            ]);
-        } catch (\Exception $e) {
-            return $this->errorResponse('Analysis not found', $e, 404);
-        }
+        return response()->json([
+            'success' => true,
+            'data' => $analysis
+        ]);
+    } catch (\Exception $e) {
+        return $this->errorResponse('Analysis not found', $e, 404);
     }
+}
+
 
     // -----------------------------
     // 3. Create new analysis
@@ -61,32 +65,24 @@ class OurAnalysisController extends Controller
     {
         try {
             $data = $request->validate([
-                'title' => 'required|string|unique:our_analyses,title',
-                'content' => 'required|string',
-                'image' => 'nullable|image|max:2048',
-                'status' => 'nullable',
-                'published_at' => 'nullable|date',
+                'symbol' => 'required|string',
+                'name' => 'required|string',
+                'status' => 'required|string',
+                'debt_to_market_cap_ratio' => 'nullable|numeric',
+                'securities_to_market_cap_ratio' => 'nullable|numeric',
+                'compliant_revenue' => 'nullable|numeric',
+                'non_compliant_revenue' => 'nullable|numeric',
+                'questionable_revenue' => 'nullable|numeric',
+                'recommendation' => 'nullable|string',
+                'note' => 'nullable|string',
             ]);
 
-            // Convert status to boolean if provided
-            $data['status'] = isset($data['status']) ? filter_var($data['status'], FILTER_VALIDATE_BOOLEAN) : true;
-
-            // Slug generation
-            $data['slug'] = Str::slug($data['title']);
-
-            // Image upload
-            if ($request->hasFile('image')) {
-                $data['image'] = $request->file('image')->store('analyses', 'public');
-            }
-
-            // Create analysis
             $analysis = OurAnalysis::create($data);
 
-            // Dispatch FCM notification via Job
-            SendAnalysisNotification::dispatch($analysis);
-
-            // Full image URL
-            $analysis->image = $analysis->image ? asset('storage/' . $analysis->image) : null;
+            // Dispatch FCM notification to all users
+            if(!empty($data['note'])) {
+                SendAnalysisNotification::dispatch($analysis);
+            }
 
             return response()->json([
                 'success' => true,
@@ -108,32 +104,24 @@ class OurAnalysisController extends Controller
             $analysis = OurAnalysis::findOrFail($id);
 
             $data = $request->validate([
-                'title' => 'sometimes|required|string|unique:our_analyses,title,' . $id,
-                'content' => 'sometimes|required|string',
-                'image' => 'nullable|image|max:2048',
-                'status' => 'sometimes',
-                'published_at' => 'nullable|date',
+                'symbol' => 'sometimes|required|string',
+                'name' => 'sometimes|required|string',
+                'status' => 'sometimes|required|string',
+                'debt_to_market_cap_ratio' => 'nullable|numeric',
+                'securities_to_market_cap_ratio' => 'nullable|numeric',
+                'compliant_revenue' => 'nullable|numeric',
+                'non_compliant_revenue' => 'nullable|numeric',
+                'questionable_revenue' => 'nullable|numeric',
+                'recommendation' => 'nullable|string',
+                'note' => 'nullable|string',
             ]);
-
-            // Convert status to boolean if provided
-            if (isset($data['status'])) {
-                $data['status'] = filter_var($data['status'], FILTER_VALIDATE_BOOLEAN);
-            }
-
-            // Image upload
-            if ($request->hasFile('image')) {
-                $data['image'] = $request->file('image')->store('analyses', 'public');
-            }
-
-            // Slug update if title changes
-            if (isset($data['title'])) {
-                $data['slug'] = Str::slug($data['title']);
-            }
 
             $analysis->update($data);
 
-            // Full image URL
-            $analysis->image = $analysis->image ? asset('storage/' . $analysis->image) : null;
+            // Dispatch notification if note updated
+            if(isset($data['note']) && $data['note']) {
+                SendAnalysisNotification::dispatch($analysis);
+            }
 
             return response()->json([
                 'success' => true,
@@ -156,7 +144,7 @@ class OurAnalysisController extends Controller
             $analysis->delete();
 
             return response()->json([
-                
+                'success' => true,
                 'message' => 'Analysis deleted successfully'
             ]);
         } catch (\Exception $e) {
