@@ -97,10 +97,7 @@ class UserController extends Controller
         }
     }
 
-    // -----------------------------
-// Admin: List all users (with optional payment filter)
-// -----------------------------
-public function index(Request $request)
+   public function index(Request $request)
 {
     try {
         $query = User::query();
@@ -114,14 +111,15 @@ public function index(Request $request)
         $perPage = $request->input('per_page', 10);
         $users = $query->orderBy('id', 'desc')->paginate($perPage);
 
-        // Format data
-        $data = $users->map(function($user){
+        // Transform data without breaking pagination
+        $users->getCollection()->transform(function($user) {
             return [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
                 'phone' => $user->phone,
                 'status' => $user->status,
+                'role' => $user->getRoleNames()->first() ?? null,
                 'purchases' => $user->payments->map(function($payment){
                     return [
                         'plan_title' => $payment->plan->title,
@@ -134,13 +132,13 @@ public function index(Request $request)
 
         return response()->json([
             'success' => true,
-            'data' => $data,
-            'pagination' => [
-                'total' => $users->total(),
-                'per_page' => $users->perPage(),
+            'data' => $users->items(), // just current page data
+            'meta' => [
                 'current_page' => $users->currentPage(),
                 'last_page' => $users->lastPage(),
-            ]
+                'per_page' => $users->perPage(),
+                'total' => $users->total(),
+            ],
         ]);
 
     } catch (\Exception $e) {
@@ -151,6 +149,7 @@ public function index(Request $request)
         ], 500);
     }
 }
+
 
 
 
@@ -178,6 +177,7 @@ public function toggleUserStatus($userId)
     {
         try {
             $user = Auth::user();
+             $user->role = $user->getRoleNames()->first() ?? null;
             return response()->json([
                 'success' => true,
                 'data' => $user

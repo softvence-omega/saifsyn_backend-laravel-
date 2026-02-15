@@ -58,6 +58,8 @@ class LoginController extends Controller
                     'id' => $user->id,
                     'email' => $user->email,
                     'role' => $user->getRoleNames()->first() ?? null,
+                    'plan_id' => $user->subscription_plan_id,
+                    'plan_name' => $user->plan->title ?? null,
                     
                 ],
                

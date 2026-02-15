@@ -43,6 +43,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'otp',
+        'roles',
     ];
 
 
@@ -58,6 +59,12 @@ public function subscriptions()
 {
     return $this->hasMany(\App\Models\Payment::class, 'user_id')->where('status', 'paid');
 }
+
+public function plan()
+{
+    return $this->belongsTo(\App\Models\SubscriptionPlan::class, 'subscription_plan_id');
+}
+
 
     /**
      * Get the attributes that should be cast.
