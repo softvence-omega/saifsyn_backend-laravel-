@@ -223,13 +223,12 @@ Route::get('regions', [ZoyaReportController::class, 'getRegions'])->name('zoya.r
 
 });
 
-
-    
-      
-
-        // Admin Route: Create/Update Terms & Conditions
+       // Admin Route: Create/Update Terms & Conditions
         Route::post('terms', [TermsAndConditionController::class, 'save']);
 
+        //logout
+
+ Route::post('logout', [LoginController::class, 'logout']);
        
     });
 });
