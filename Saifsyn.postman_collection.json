@@ -17,7 +17,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"gixoco4835@2insp.com\",\r\n    \"password\": \"Password@123\",\r\n    \"password_confirmation\": \"Password@123\",\r\n    \"role\": \"user\",\r\n    \"terms_accepted\": true\r\n}\r\n",
+              "raw": "{\r\n    \"email\": \"heyacib149@2insp.com\",\r\n    \"password\": \"Password@123\",\r\n    \"password_confirmation\": \"Password@123\",\r\n    \"role\": \"user\",\r\n    \"terms_accepted\": true\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -288,14 +288,7 @@
           "name": "show all",
           "request": {
             "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "method": "GET",
             "header": [
@@ -311,12 +304,13 @@
               }
             ],
             "url": {
-              "raw": "{{url}}/subscriptions",
+              "raw": "{{url}}/subscriptions/show-all",
               "host": [
                 "{{url}}"
               ],
               "path": [
-                "subscriptions"
+                "subscriptions",
+                "show-all"
               ]
             }
           },
@@ -326,14 +320,7 @@
           "name": "show plan(single)",
           "request": {
             "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "method": "GET",
             "header": [
@@ -344,12 +331,13 @@
               }
             ],
             "url": {
-              "raw": "{{url}}/subscriptions/1",
+              "raw": "{{url}}/subscriptions/show/1",
               "host": [
                 "{{url}}"
               ],
               "path": [
                 "subscriptions",
+                "show",
                 "1"
               ]
             }
@@ -3170,6 +3158,9 @@
     },
     {
       "key": "token",
+      "value": ""
+    },
+    {
       "value": ""
     },
     {

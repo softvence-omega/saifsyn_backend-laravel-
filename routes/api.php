@@ -51,8 +51,6 @@ Route::prefix('v1')->group(function () {
 
 
 
-
-
     // Public Route: Get Terms & Conditions
     Route::get('terms', [TermsAndConditionController::class, 'get']);
     //Zoya Controller
@@ -64,6 +62,16 @@ Route::prefix('v1')->group(function () {
 //Aboutpage
 
 Route::get('/about', [AboutPageController::class, 'show']);
+
+//Subscription
+
+   // Public: anyone can see plans
+Route::prefix('subscriptions')->group(function () {
+    Route::get('show-all', [PlanController::class, 'index']);
+    Route::get('show/{id}', [PlanController::class, 'show']);
+});
+ 
+   
 
 
     // ----------------------------
@@ -113,6 +121,20 @@ Route::get('/about', [AboutPageController::class, 'show']);
     Route::get('/chat/{userId}', [MessageController::class,'chatWithUser']);
     Route::delete('/chat/delete/{id}', [MessageController::class,'delete']);
     Route::post('/chat/restore/{id}', [MessageController::class,'restore']);
+
+
+
+
+    //Subscription plan
+
+
+  
+
+Route::prefix('subscriptions')->group(function () {
+        Route::post('/', [PlanController::class, 'store']);     // Create plan
+        Route::put('{id}', [PlanController::class, 'update']);  // Update plan
+        Route::delete('{id}', [PlanController::class, 'destroy']); // Delete plan
+    });
     
 
    Route::prefix('subscriptions')->group(function () {
