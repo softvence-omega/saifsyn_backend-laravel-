@@ -122,6 +122,7 @@ public function index(Request $request)
                 'email' => $user->email,
                 'phone' => $user->phone,
                 'status' => $user->status,
+                'role' => $user->getRoleNames()->first() ?? null,
                 'purchases' => $user->payments->map(function($payment){
                     return [
                         'plan_title' => $payment->plan->title,
@@ -178,6 +179,7 @@ public function toggleUserStatus($userId)
     {
         try {
             $user = Auth::user();
+             $user->role = $user->getRoleNames()->first() ?? null;
             return response()->json([
                 'success' => true,
                 'data' => $user
