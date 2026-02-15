@@ -17,7 +17,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"sikagey423@azeriom.com\",\r\n    \"password\": \"Password@123\",\r\n    \"password_confirmation\": \"Password@123\",\r\n    \"role\": \"user\",\r\n    \"terms_accepted\": true\r\n}\r\n",
+              "raw": "{\r\n    \"email\": \"gixoco4835@2insp.com\",\r\n    \"password\": \"Password@123\",\r\n    \"password_confirmation\": \"Password@123\",\r\n    \"role\": \"user\",\r\n    \"terms_accepted\": true\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -86,7 +86,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"admin@example.com\",\r\n  \"password\": \"Password123!\"\r\n\r\n\r\n  //user\r\n  \r\n  //\"email\": \"user@example.com\",\r\n  //\"password\": \"Password123!\"\r\n}\r\n",
+              "raw": "{\r\n  \"email\": \"admin@example.com\",\r\n  \"password\": \"Password123!\"\r\n\r\n\r\n  //user\r\n  \r\n//   \"email\": \"user@example.com\",\r\n//   \"password\": \"Password123!\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1097,7 +1097,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"plan_id\": 1,\r\n    \"platform\": \"web\"\r\n}\r\n\r\n",
+              "raw": "{\r\n    \"plan_id\": 1,\r\n    \"platform\": \"app\"\r\n}\r\n\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1433,7 +1433,7 @@
       "name": "Our Analysis",
       "item": [
         {
-          "name": "analysis-add",
+          "name": "analysis-add(admin -part)",
           "request": {
             "auth": {
               "type": "bearer",
@@ -1459,39 +1459,8 @@
               }
             ],
             "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "title",
-                  "value": "Stock Market Insights Feb 2026eioiiu",
-                  "type": "text",
-                  "uuid": "09963bd3-689c-4c5c-adbc-0d1e20c9b1b5"
-                },
-                {
-                  "key": "content",
-                  "value": "The market is showing strong bullish trends in tech stocks...",
-                  "type": "text",
-                  "uuid": "e13fa83d-d053-471a-9d26-35537d6b8e55"
-                },
-                {
-                  "key": "image",
-                  "type": "file",
-                  "uuid": "417af08d-a61e-4a2a-8f27-f4418e869621",
-                  "src": "/C:/Users/rehan/Music/Image/image.png"
-                },
-                {
-                  "key": "status",
-                  "value": "1",
-                  "type": "text",
-                  "uuid": "699a2c82-e497-4cac-bf22-6f8266929729"
-                },
-                {
-                  "key": "published_at",
-                  "value": "2026-02-07",
-                  "type": "text",
-                  "uuid": "6597f026-bf34-4eb5-b574-0ae64c84fb57"
-                }
-              ]
+              "mode": "raw",
+              "raw": "{\r\n    \"symbol\": \"AAPL\",\r\n    \"name\": \"Apple Inc.\",\r\n    \"status\": \"COMPLIANT\",\r\n    \"debt_to_market_cap_ratio\": 0.1234,\r\n    \"securities_to_market_cap_ratio\": 0.5678,\r\n    \"compliant_revenue\": 5000000000,\r\n    \"non_compliant_revenue\": 100000000,\r\n    \"questionable_revenue\": 50000000,\r\n    \"recommendation\": \"This stock is suitable for Shariah-compliant portfolios.\",\r\n    \"note\": \"Check latest quarterly report for details before investing.\"\r\n}\r\n"
             },
             "url": {
               "raw": "{{url}}/analyses",
@@ -1623,39 +1592,8 @@
               }
             ],
             "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "title",
-                  "value": "updatedd",
-                  "type": "text",
-                  "uuid": "d8afc789-b3ca-48f3-b5ab-1581f19072db"
-                },
-                {
-                  "key": "content",
-                  "value": "new",
-                  "type": "text",
-                  "uuid": "9884ba68-dd3d-45ad-9580-30baf7577b4e"
-                },
-                {
-                  "key": "image",
-                  "type": "file",
-                  "uuid": "d706ee4a-a070-49f7-afe9-0b4aec5499e8",
-                  "src": "/C:/Users/rehan/Music/Image/dummy-female-img.jpg"
-                },
-                {
-                  "key": "status",
-                  "value": "0",
-                  "type": "text",
-                  "uuid": "6db2d944-a518-4001-bac5-168e21e0b140"
-                },
-                {
-                  "key": "published_at",
-                  "value": "2026-02-07",
-                  "type": "text",
-                  "uuid": "6750a391-db3a-4b36-8ebd-b62d3c514fe5"
-                }
-              ]
+              "mode": "raw",
+              "raw": "{\r\n    \"symbol\": \"AAPL\",\r\n    \"name\": \"Apple Inc.\",\r\n    \"status\": \"COMPLIANT\",\r\n    \"debt_to_market_cap_ratio\": 0.1234,\r\n    \"securities_to_market_cap_ratio\": 0.5678,\r\n    \"compliant_revenue\": 5000000000,\r\n    \"non_compliant_revenue\": 100000000,\r\n    \"questionable_revenue\": 50000000,\r\n    \"recommendation\": \"This stock is suitable for Shariah-compliant portfolios.\",\r\n    \"note\": \"Check latest quarterly report for details before investing.\"\r\n}\r\n"
             },
             "url": {
               "raw": "{{url}}/analyses/1",
@@ -1701,13 +1639,13 @@
               "raw": "\r\n"
             },
             "url": {
-              "raw": "{{url}}/analyses/3",
+              "raw": "{{url}}/analyses/2",
               "host": [
                 "{{url}}"
               ],
               "path": [
                 "analyses",
-                "3"
+                "2"
               ]
             }
           },
@@ -1927,7 +1865,7 @@
                   "raw": "\r\n"
                 },
                 "url": {
-                  "raw": "{{url}}/financial/incomes",
+                  "raw": "{{url}}/financial/incomes?from_date=2026-02-01&to_date=2026-03-28",
                   "host": [
                     "{{url}}"
                   ],
@@ -1938,13 +1876,11 @@
                   "query": [
                     {
                       "key": "from_date",
-                      "value": "2026-02-01",
-                      "disabled": true
+                      "value": "2026-02-01"
                     },
                     {
                       "key": "to_date",
-                      "value": "2026-03-28",
-                      "disabled": true
+                      "value": "2026-03-28"
                     }
                   ]
                 }
@@ -2583,6 +2519,14 @@
                 "header": []
               },
               "response": []
+            },
+            {
+              "name": "New Request",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
             }
           ]
         },
@@ -2732,6 +2676,72 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "show loan calculation",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/financial/loan/calc?amount=100000&interest_rate=12&repayment_period=12",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "financial",
+                "loan",
+                "calc"
+              ],
+              "query": [
+                {
+                  "key": "amount",
+                  "value": "100000"
+                },
+                {
+                  "key": "interest_rate",
+                  "value": "12"
+                },
+                {
+                  "key": "repayment_period",
+                  "value": "12"
+                }
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -2835,6 +2845,12 @@
                   "type": "file",
                   "uuid": "dbba1275-968e-4a66-936a-f4b883342fd6",
                   "src": "/C:/Users/rehan/Music/video/7121778-hd_1080_1920_30fps.mp4"
+                },
+                {
+                  "key": "our_mission[]",
+                  "value": "upadted",
+                  "type": "text",
+                  "uuid": "a820838e-004d-43dd-900c-a78131f79390"
                 }
               ]
             },
@@ -3154,6 +3170,9 @@
     },
     {
       "key": "token",
+      "value": ""
+    },
+    {
       "value": ""
     },
     {
