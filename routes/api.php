@@ -122,6 +122,9 @@ Route::get('/about', [AboutPageController::class, 'show']);
 Route::prefix('financial')->group(function() {
     // Manager and Wealth
     Route::get('manager', [FinancialManagerController::class, 'index']);
+    // routes/web.php or routes/api.php
+    Route::get('loan/calc', [LoanCalculatorController::class, 'calculate']);
+
 
     Route::post('loan/calc', [LoanCalculatorController::class,'calculate']);
 
