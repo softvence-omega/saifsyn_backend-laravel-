@@ -304,6 +304,77 @@ public function getRegions()
 
 
 
+
+
+
+
+// -----------------------------
+// Zakat calculation
+// -----------------------------
+// -----------------------------
+// Zakat calculation
+// -----------------------------
+public function calculateZakat(array $holdings)
+{
+    if (empty($holdings)) {
+        return [
+            'success' => false,
+            'message' => 'No holdings provided.'
+        ];
+    }
+
+    // GraphQL expects enums without quotes
+    $holdingsGraphQL = array_map(function ($holding) {
+        $strategy = strtoupper($holding['strategy']); // ACTIVE or PASSIVE
+        return sprintf(
+            '{symbol: "%s", strategy: %s, quantity: %s, unitPrice: %s}',
+            $holding['symbol'],
+            $strategy,
+            $holding['quantity'],
+            $holding['unitPrice']
+        );
+    }, $holdings);
+
+    $holdingsString = '[' . implode(',', $holdingsGraphQL) . ']';
+
+    $query = "
+    query {
+        calculate(holdings: $holdingsString) {
+            zakatLiableAmount
+            zakatDue
+            currency
+            holdings {
+                symbol
+                strategy
+                currency
+                marketValue
+                zakatLiableAmount
+                zakatDue
+                calculationMethod
+            }
+        }
+    }";
+
+    $response = $this->sendQuery($query);
+
+    // Safety check for API errors
+    if (!isset($response['data']['calculate'])) {
+        return [
+            'success' => false,
+            'message' => 'Failed to calculate zakat. Please check your input or API key.',
+            'raw_response' => $response,
+        ];
+    }
+
+    return [
+        'success' => true,
+        'data' => $response['data']['calculate']
+    ];
+}
+
+
+
+
     // -----------------------------
     // Helper function to send GraphQL request
     // -----------------------------
