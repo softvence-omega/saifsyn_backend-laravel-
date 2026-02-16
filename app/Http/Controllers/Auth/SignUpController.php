@@ -81,6 +81,7 @@ class SignUpController extends Controller
             'data' => [
                 'id' => $user->id,
                 'email' => $user->email,
+                'name' => $user->name,
                 'role' => $request->role,
             ]
         ], 201);
