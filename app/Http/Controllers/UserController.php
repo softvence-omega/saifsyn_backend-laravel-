@@ -97,21 +97,33 @@ class UserController extends Controller
         }
     }
 
+
+    //all user show
    public function index(Request $request)
 {
     try {
         $query = User::query();
 
+        // Filter by status if param exists
+        if ($request->has('status')) {
+            $status = strtolower($request->status);
+            if ($status === 'active') {
+                $query->where('status', true);
+            } elseif ($status === 'inactive') {
+                $query->where('status', false);
+            }
+        }
+
         // Only paid subscriptions
         $query->with(['payments' => function($q) {
-            $q->where('status', 'paid')->with('plan'); // load plan details
+            $q->where('status', 'paid')->with('plan');
         }]);
 
         // Pagination
         $perPage = $request->input('per_page', 10);
         $users = $query->orderBy('id', 'desc')->paginate($perPage);
 
-        // Transform data without breaking pagination
+        // Transform data
         $users->getCollection()->transform(function($user) {
             return [
                 'id' => $user->id,
@@ -132,7 +144,7 @@ class UserController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $users->items(), // just current page data
+            'data' => $users->items(),
             'meta' => [
                 'current_page' => $users->currentPage(),
                 'last_page' => $users->lastPage(),
@@ -149,7 +161,6 @@ class UserController extends Controller
         ], 500);
     }
 }
-
 
 
 

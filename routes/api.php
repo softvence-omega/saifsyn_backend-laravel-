@@ -22,6 +22,7 @@ use  App\Http\Controllers\PaymentController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutPageController;
+  use App\Http\Controllers\ZakatController;
 
 
 Route::prefix('v1')->group(function () {
@@ -128,7 +129,17 @@ Route::prefix('subscriptions')->group(function () {
     //Subscription plan
 
 
+
+
+
+  // Get all zakat calculations
+Route::get('/zakat', [ZakatController::class, 'index']);
+
+    Route::post('/zakat/calculate', [ZakatController::class, 'calculate']);
   
+
+
+
 
 Route::prefix('subscriptions')->group(function () {
         Route::post('/', [PlanController::class, 'store']);     // Create plan
