@@ -11,79 +11,145 @@ use Stripe\Webhook;
 
 class PaymentController extends Controller
 {
-    /**
-     * List payments with optional platform filter
-     */
     public function index(Request $request)
-    {
-        try {
-            $perPage = $request->query('per_page', 10);
-            $platform = $request->query('platform'); // optional: web or app
+{
+    try {
+        $perPage = $request->query('per_page', 10);
+        $platform = $request->query('platform'); // optional: web or app
 
-            $query = Payment::with(['user', 'plan'])->latest();
+        $query = Payment::with(['user', 'plan'])->latest();
 
-            if ($platform) {
-                $query->where('platform', $platform);
-            }
+        if ($platform) {
+            $query->where('platform', $platform);
+        }
 
-            $payments = $query->paginate($perPage);
+        $payments = $query->paginate($perPage);
 
-            if ($payments->isEmpty()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No payments found.',
-                    'data' => []
-                ]);
-            }
+        $formatted = $payments->getCollection()->map(function ($payment) {
+            return [
+                'id'             => $payment->id,
+                'transaction_id' => $payment->transaction_id,
+                'amount'         => $payment->amount,
+                'currency'       => $payment->currency,
+                'status'         => $payment->status,
+                'platform'       => $payment->platform,
+                'created_at'     => $payment->created_at,
+                'updated_at'     => $payment->updated_at,
+                'user' => $payment->user ? [
+                    'id' => $payment->user->id,
+                    'name' => $payment->user->name,
+                    'email' => $payment->user->email,
+                    'subscription_plan_id' => $payment->user->subscription_plan_id
+                ] : null,
+                'plan' => $payment->plan ? [
+                    'id' => $payment->plan->id,
+                    'title' => $payment->plan->title,
+                    'price' => $payment->plan->price
+                ] : null,
+            ];
+        });
 
-            $formatted = $payments->getCollection()->map(function ($payment) {
-                return [
-                    'id'             => $payment->id,
-                    'transaction_id' => $payment->transaction_id,
-                    'amount'         => $payment->amount,
-                    'currency'       => $payment->currency,
-                    'status'         => $payment->status,
-                    'platform'       => $payment->platform,
-                    'created_at'     => $payment->created_at,
-                    'updated_at'     => $payment->updated_at,
-                    'user' => $payment->user ? [
-                        'id' => $payment->user->id,
-                        'name' => $payment->user->name,
-                        'email' => $payment->user->email,
-                        'subscription_plan_id' => $payment->user->subscription_plan_id
-                    ] : 'No user found',
-                    'plan' => $payment->plan ? [
-                        'id' => $payment->plan->id,
-                        'title' => $payment->plan->title,
-                        'price' => $payment->plan->price
-                    ] : 'No plan found',
-                ];
-            });
+        return response()->json([
+            'success' => true,
+            'meta' => [
+                'current_page' => $payments->currentPage(),
+                'last_page'    => $payments->lastPage(),
+                'per_page'     => $payments->perPage(),
+                'total'        => $payments->total(),
+            ],
+            'data' => $formatted,
+        ]);
 
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'current_page'   => $payments->currentPage(),
-                    'per_page'       => $payments->perPage(),
-                    'total'          => $payments->total(),
-                    'first_page_url' => $payments->url(1),
-                    'last_page_url'  => $payments->url($payments->lastPage()),
-                    'next_page_url'  => $payments->nextPageUrl(),
-                    'prev_page_url'  => $payments->previousPageUrl(),
-                    'from'           => $payments->firstItem(),
-                    'to'             => $payments->lastItem(),
-                    'data'           => $formatted,
-                ]
-            ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch payments: ' . $e->getMessage(),
+        ], 500);
+    }
+}
 
-        } catch (\Exception $e) {
+
+
+
+
+
+public function show(Request $request)
+{
+    try {
+        $user = $request->user(); // লগইন করা ইউজার
+
+        if (!$user) {
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to fetch payments: ' . $e->getMessage(),
-                'data' => []
-            ], 500);
+                'message' => 'Unauthorized',
+            ], 401);
         }
+
+        // ইউজারের সব payment history fetch
+        $payments = Payment::with('plan')
+            ->where('user_id', $user->id)
+            ->latest()
+            ->get();
+
+        // latest payment
+        $latestPayment = $payments->first();
+
+        // formatted history
+        $paymentHistory = $payments->map(function ($payment) {
+            return [
+                'id'             => $payment->id,
+                'transaction_id' => $payment->transaction_id,
+                'amount'         => $payment->amount,
+                'currency'       => $payment->currency,
+                'status'         => $payment->status,
+                'platform'       => $payment->platform,
+                'created_at'     => $payment->created_at,
+                'updated_at'     => $payment->updated_at,
+                'plan' => $payment->plan ? [
+                    'id' => $payment->plan->id,
+                    'title' => $payment->plan->title,
+                    'price' => $payment->plan->price
+                ] : null,
+            ];
+        });
+
+        // formatted latest
+        $formattedLatest = $latestPayment ? [
+            'id'             => $latestPayment->id,
+            'transaction_id' => $latestPayment->transaction_id,
+            'amount'         => $latestPayment->amount,
+            'currency'       => $latestPayment->currency,
+            'status'         => $latestPayment->status,
+            'platform'       => $latestPayment->platform,
+            'created_at'     => $latestPayment->created_at,
+            'updated_at'     => $latestPayment->updated_at,
+            'plan' => $latestPayment->plan ? [
+                'id' => $latestPayment->plan->id,
+                'title' => $latestPayment->plan->title,
+                'price' => $latestPayment->plan->price
+            ] : null,
+        ] : null;
+
+        return response()->json([
+            'success' => true,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ],
+            'latest_payment' => $formattedLatest,
+            'payment_history' => $paymentHistory,
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to fetch user info: ' . $e->getMessage(),
+        ], 500);
     }
+}
+
+
 
     /**
      * Process payment / subscription for web or app

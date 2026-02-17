@@ -111,6 +111,7 @@ Route::prefix('subscriptions')->group(function () {
       //subscription payment
         Route::post('/payment/process', [PaymentController::class, 'processPayment']);
         Route::get('/all-payments', [PaymentController::class, 'index'])->name('payment.index');//admin show all
+        Route::get('/payment/show', [PaymentController::class, 'show']);
 
 
 
