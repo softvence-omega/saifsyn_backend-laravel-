@@ -14,10 +14,21 @@
           "name": "register",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"yakiv26589@2insp.com\",\r\n    \"password\": \"Password@123\",\r\n    \"password_confirmation\": \"Password@123\",\r\n    \"role\": \"user\",\r\n    \"terms_accepted\": true\r\n}\r\n",
+              "raw": "{\r\n    \"email\": \"derob64136@deposin.com\",\r\n    \"password\": \"Password@123\",\r\n    \"password_confirmation\": \"Password@123\",\r\n    \"role\": \"user\",\r\n    \"terms_accepted\": true\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -54,7 +65,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"sikagey423@azeriom.com\",\r\n    \"otp\": \"95028\"\r\n   \r\n}\r\n"
+              "raw": "{\r\n    \"email\": \"derob64136@deposin.com\",\r\n    \"otp\": \"96607\"\r\n   \r\n}\r\n"
             },
             "url": {
               "raw": "{{url}}/verify-otp",
@@ -163,7 +174,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"email\": \"takifew930@noihse.com\"\r\n}\r\n",
+              "raw": "{\r\n  \"email\": \"derob64136@deposin.com\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -233,7 +244,18 @@
               ]
             },
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\r\n  \"fcm_token\": \"your_device_fcm_token_here\"\r\n}\r\n",
@@ -1123,7 +1145,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"plan_id\": 1,\r\n    \"platform\": \"app\"\r\n}\r\n\r\n",
+              "raw": "{\r\n    \"plan_id\": 3,\r\n    \"platform\": \"web\"\r\n}\r\n\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1165,6 +1187,40 @@
               ],
               "path": [
                 "all-payments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "single-user show",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/payment/show",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "payment",
+                "show"
               ]
             }
           },
@@ -2813,6 +2869,39 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "show-all contact(admin part)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/contact",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "contact"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -3090,6 +3179,9 @@
         },
         {
           "name": "show-all-user(admin)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
             "auth": {
               "type": "bearer",
@@ -3109,13 +3201,33 @@
                 "type": "text"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
-              "raw": "{{url}}/users",
+              "raw": "{{url}}/users?status=active",
               "host": [
                 "{{url}}"
               ],
               "path": [
                 "users"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "active"
+                },
+                {
+                  "key": "status",
+                  "value": "inactive",
+                  "disabled": true
+                }
               ]
             }
           },
@@ -3157,6 +3269,97 @@
                 "users",
                 "2",
                 "toggle-status"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "zakat",
+      "item": [
+        {
+          "name": "zakat-all",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"holdings\": [\r\n    {\r\n      \"symbol\": \"AAPL\",\r\n      \"strategy\": \"ACTIVE\",\r\n      \"quantity\": 10,\r\n      \"unitPrice\": 150\r\n    },\r\n    {\r\n      \"symbol\": \"TSLA\",\r\n      \"strategy\": \"PASSIVE\",\r\n      \"quantity\": 5,\r\n      \"unitPrice\": 700\r\n    }\r\n  ]\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/zakat/calculate",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zakat",
+                "calculate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show-all",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/zakat",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "zakat"
               ]
             }
           },

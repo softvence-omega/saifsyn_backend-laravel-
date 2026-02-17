@@ -41,4 +41,32 @@ class ContactController extends Controller
             'data' => $contact,
         ]);
     }
+
+
+
+
+
+
+    /**
+ * Display all contact messages
+ */
+public function index()
+{
+    try {
+        $contacts = Contact::latest()->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'All contact messages retrieved successfully',
+            'data' => $contacts,
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Failed to retrieve contacts: ' . $e->getMessage(),
+        ], 500);
+    }
+}
+
 }

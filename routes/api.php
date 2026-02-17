@@ -59,6 +59,7 @@ Route::prefix('v1')->group(function () {
     //user contact with admin via email
 
     Route::post('contact',[ContactController::class,'store']);
+
    
 //Aboutpage
 
@@ -80,7 +81,8 @@ Route::prefix('subscriptions')->group(function () {
     // ----------------------------
     Route::middleware('auth:sanctum')->group(function () {
 
-
+// Single contact by ID
+Route::get('/contact', [ContactController::class, 'index']);
                 // -----------------------------
             // Admin: View all users
             // -----------------------------
