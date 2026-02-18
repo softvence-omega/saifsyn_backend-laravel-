@@ -47,18 +47,31 @@ class ContactController extends Controller
 
 
 
-    /**
- * Display all contact messages
+ 
+/**
+ * Display all contact messages (paginated)
  */
 public function index()
 {
     try {
-        $contacts = Contact::latest()->get();
+        $perPage = 10; // Pagination limit
+        $contacts = Contact::orderBy('created_at', 'desc')->paginate($perPage);
+
+        // Optional: transform data if needed
+        $data = $contacts->getCollection()->transform(function ($contact) {
+            return $contact;
+        });
 
         return response()->json([
             'success' => true,
             'message' => 'All contact messages retrieved successfully',
-            'data' => $contacts,
+            'data' => $data,
+            'meta' => [
+                'current_page' => $contacts->currentPage(),
+                'last_page' => $contacts->lastPage(),
+                'per_page' => $contacts->perPage(),
+                'total' => $contacts->total(),
+            ],
         ], 200);
 
     } catch (\Exception $e) {
@@ -68,5 +81,6 @@ public function index()
         ], 500);
     }
 }
+
 
 }

@@ -12,20 +12,18 @@ class OurAnalysisController extends Controller
 // -----------------------------
 // 1. List all analyses (paginated)
 // -----------------------------
-public function index()
+// -----------------------------
+// 1. List all analyses (paginated)
+// -----------------------------
+public function index(Request $request)
 {
     try {
-        $perPage = 10; // Pagination limit
+        $perPage = $request->get('per_page', 10); // Optional: allow dynamic pagination
         $analyses = OurAnalysis::orderBy('created_at', 'desc')->paginate($perPage);
-
-        // Only return actual analysis data, no image field
-        $data = $analyses->getCollection()->transform(function ($analysis) {
-            return $analysis;
-        });
 
         return response()->json([
             'success' => true,
-            'data' => $data,
+            'data' => $analyses->items(),
             'meta' => [
                 'current_page' => $analyses->currentPage(),
                 'last_page' => $analyses->lastPage(),
@@ -44,16 +42,21 @@ public function index()
 public function show($id)
 {
     try {
-        $analysis = OurAnalysis::findOrFail($id);
+        $analysis = OurAnalysis::find($id);
 
-        // No image processing
+        if (!$analysis) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Analysis not found',
+            ], 404);
+        }
 
         return response()->json([
             'success' => true,
-            'data' => $analysis
+            'data' => $analysis,
         ]);
     } catch (\Exception $e) {
-        return $this->errorResponse('Analysis not found', $e, 404);
+        return $this->errorResponse('Failed to fetch analysis', $e);
     }
 }
 
@@ -68,11 +71,11 @@ public function show($id)
                 'symbol' => 'required|string',
                 'name' => 'required|string',
                 'status' => 'required|string',
-                'debt_to_market_cap_ratio' => 'nullable|numeric',
-                'securities_to_market_cap_ratio' => 'nullable|numeric',
-                'compliant_revenue' => 'nullable|numeric',
-                'non_compliant_revenue' => 'nullable|numeric',
-                'questionable_revenue' => 'nullable|numeric',
+                // 'debt_to_market_cap_ratio' => 'nullable|numeric',
+                // 'securities_to_market_cap_ratio' => 'nullable|numeric',
+                // 'compliant_revenue' => 'nullable|numeric',
+                // 'non_compliant_revenue' => 'nullable|numeric',
+                // 'questionable_revenue' => 'nullable|numeric',
                 'recommendation' => 'nullable|string',
                 'note' => 'nullable|string',
             ]);
@@ -107,11 +110,11 @@ public function show($id)
                 'symbol' => 'sometimes|required|string',
                 'name' => 'sometimes|required|string',
                 'status' => 'sometimes|required|string',
-                'debt_to_market_cap_ratio' => 'nullable|numeric',
-                'securities_to_market_cap_ratio' => 'nullable|numeric',
-                'compliant_revenue' => 'nullable|numeric',
-                'non_compliant_revenue' => 'nullable|numeric',
-                'questionable_revenue' => 'nullable|numeric',
+                // 'debt_to_market_cap_ratio' => 'nullable|numeric',
+                // 'securities_to_market_cap_ratio' => 'nullable|numeric',
+                // 'compliant_revenue' => 'nullable|numeric',
+                // 'non_compliant_revenue' => 'nullable|numeric',
+                // 'questionable_revenue' => 'nullable|numeric',
                 'recommendation' => 'nullable|string',
                 'note' => 'nullable|string',
             ]);
