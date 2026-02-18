@@ -71,11 +71,7 @@ public function show($id)
                 'symbol' => 'required|string',
                 'name' => 'required|string',
                 'status' => 'required|string',
-                // 'debt_to_market_cap_ratio' => 'nullable|numeric',
-                // 'securities_to_market_cap_ratio' => 'nullable|numeric',
-                // 'compliant_revenue' => 'nullable|numeric',
-                // 'non_compliant_revenue' => 'nullable|numeric',
-                // 'questionable_revenue' => 'nullable|numeric',
+               
                 'recommendation' => 'nullable|string',
                 'note' => 'nullable|string',
             ]);
@@ -110,11 +106,7 @@ public function show($id)
                 'symbol' => 'sometimes|required|string',
                 'name' => 'sometimes|required|string',
                 'status' => 'sometimes|required|string',
-                // 'debt_to_market_cap_ratio' => 'nullable|numeric',
-                // 'securities_to_market_cap_ratio' => 'nullable|numeric',
-                // 'compliant_revenue' => 'nullable|numeric',
-                // 'non_compliant_revenue' => 'nullable|numeric',
-                // 'questionable_revenue' => 'nullable|numeric',
+               
                 'recommendation' => 'nullable|string',
                 'note' => 'nullable|string',
             ]);
