@@ -15,19 +15,19 @@ class SubscriptionSeeder extends Seeder
         $plans = [
 
             // ==============================
-            // Beginner Plan (Core App Access)
+            // Beginner Plan (Core Access)
             // ==============================
             [
                 'title' => 'Beginner',
-                'description' => 'Access to core financial tools, analysis, news, and basic stock reports.',
+                'description' => 'Access to basic Shariah stock reports and core financial management tools.',
                 'price' => 79.00,
                 'features' => json_encode([
-                    'Basic Stock Reports',
-                    'Market News Access',
-                    'Full Financial Management (Income, Expense, Loan)',
-                    'Full Analysis Access',
-                    'Watchlist Management',
+                    'Specific Stock Shariah Report',
+                    'Limited US Market Shariah Reports',
+                    'Compliant Stock List Access',
+                    'Financial Management (Income, Expense, Loan)',
                     'Basic Wealth Dashboard Overview',
+                    'Watchlist Management (Limited)',
                     'Profile & Settings Access',
                 ]),
                 'duration_type' => 'month',
@@ -35,17 +35,18 @@ class SubscriptionSeeder extends Seeder
                 'is_popular' => false,
                 'status' => true,
             ],
+
             [
                 'title' => 'Beginner 6 Months',
-                'description' => 'Access to core financial tools, analysis, news, and basic stock reports.',
+                'description' => 'Access to basic Shariah stock reports and core financial management tools.',
                 'price' => 299.00,
                 'features' => json_encode([
-                    'Basic Stock Reports',
-                    'Market News Access',
-                    'Full Financial Management (Income, Expense, Loan)',
-                    'Full Analysis Access',
-                    'Watchlist Management',
+                    'Specific Stock Shariah Report',
+                    'Limited US Market Shariah Reports',
+                    'Compliant Stock List Access',
+                    'Financial Management (Income, Expense, Loan)',
                     'Basic Wealth Dashboard Overview',
+                    'Watchlist Management (Limited)',
                     'Profile & Settings Access',
                 ]),
                 'duration_type' => 'month',
@@ -53,17 +54,18 @@ class SubscriptionSeeder extends Seeder
                 'is_popular' => false,
                 'status' => true,
             ],
+
             [
                 'title' => 'Beginner 12 Months',
-                'description' => 'Access to core financial tools, analysis, news, and basic stock reports.',
+                'description' => 'Access to basic Shariah stock reports and core financial management tools.',
                 'price' => 556.00,
                 'features' => json_encode([
-                    'Basic Stock Reports',
-                    'Market News Access',
-                    'Full Financial Management (Income, Expense, Loan)',
-                    'Full Analysis Access',
-                    'Watchlist Management',
+                    'Specific Stock Shariah Report',
+                    'Limited US Market Shariah Reports',
+                    'Compliant Stock List Access',
+                    'Financial Management (Income, Expense, Loan)',
                     'Basic Wealth Dashboard Overview',
+                    'Watchlist Management (Limited)',
                     'Profile & Settings Access',
                 ]),
                 'duration_type' => 'month',
@@ -73,21 +75,20 @@ class SubscriptionSeeder extends Seeder
             ],
 
             // ==============================
-            // Elite Plan (Advanced Reports)
+            // Elite Plan (Full Reports Access)
             // ==============================
             [
                 'title' => 'Elite',
-                'description' => 'Unlock advanced and international stock reports with full dashboard features.',
-                'price' => 79.00,
+                'description' => 'Full access to all Shariah compliance reports including ETF and complete financial tools.',
+                'price' => 149.00,
                 'features' => json_encode([
-                    'Basic Stock Reports',
-                    'Advanced Stock Reports',
-                    'International Stock Reports',
-                    'ETF / Fund Reports',
+                    'Specific Stock Shariah Report',
+                    'All US Market Shariah Reports',
+                    'All Compliant Stock Reports',
+                    'ETF / Fund Shariah Reports',
+                    'Unlimited Watchlist',
                     'Full Financial Management (Income, Expense, Loan)',
                     'Full Analysis Access',
-                    'Unlimited Watchlist',
-                    'Market News Access',
                     'Advanced Wealth Dashboard & Insights',
                     'Profile & Settings Access',
                 ]),
@@ -96,19 +97,19 @@ class SubscriptionSeeder extends Seeder
                 'is_popular' => true,
                 'status' => true,
             ],
+
             [
                 'title' => 'Elite 6 Months',
-                'description' => 'Unlock advanced and international stock reports with full dashboard features.',
-                'price' => 299.00,
+                'description' => 'Full access to all Shariah compliance reports including ETF and complete financial tools.',
+                'price' => 799.00,
                 'features' => json_encode([
-                    'Basic Stock Reports',
-                    'Advanced Stock Reports',
-                    'International Stock Reports',
-                    'ETF / Fund Reports',
+                    'Specific Stock Shariah Report',
+                    'All US Market Shariah Reports',
+                    'All Compliant Stock Reports',
+                    'ETF / Fund Shariah Reports',
+                    'Unlimited Watchlist',
                     'Full Financial Management (Income, Expense, Loan)',
                     'Full Analysis Access',
-                    'Unlimited Watchlist',
-                    'Market News Access',
                     'Advanced Wealth Dashboard & Insights',
                     'Profile & Settings Access',
                 ]),
@@ -117,19 +118,19 @@ class SubscriptionSeeder extends Seeder
                 'is_popular' => true,
                 'status' => true,
             ],
+
             [
                 'title' => 'Elite 12 Months',
-                'description' => 'Unlock advanced and international stock reports with full dashboard features.',
-                'price' => 556.00,
+                'description' => 'Full access to all Shariah compliance reports including ETF and complete financial tools.',
+                'price' => 1399.00,
                 'features' => json_encode([
-                    'Basic Stock Reports',
-                    'Advanced Stock Reports',
-                    'International Stock Reports',
-                    'ETF / Fund Reports',
+                    'Specific Stock Shariah Report',
+                    'All US Market Shariah Reports',
+                    'All Compliant Stock Reports',
+                    'ETF / Fund Shariah Reports',
+                    'Unlimited Watchlist',
                     'Full Financial Management (Income, Expense, Loan)',
                     'Full Analysis Access',
-                    'Unlimited Watchlist',
-                    'Market News Access',
                     'Advanced Wealth Dashboard & Insights',
                     'Profile & Settings Access',
                 ]),
@@ -139,95 +140,14 @@ class SubscriptionSeeder extends Seeder
                 'status' => true,
             ],
 
-            // ==============================
-            // Elite Pro Plan (Full Premium Access)
-            // ==============================
-            [
-                'title' => 'Elite Pro',
-                'description' => 'Complete premium access including regional reports, API access, and advanced insights.',
-                'price' => 79.00,
-                'features' => json_encode([
-                    'Basic Stock Reports',
-                    'Advanced Stock Reports',
-                    'International Stock Reports',
-                    'Regional Reports',
-                    'MENA Region Compliance Reports',
-                    'ETF / Fund Reports',
-                    'Access to All Exchanges',
-                    'Full Financial Management (Income, Expense, Loan)',
-                    'Full Analysis Access',
-                    'Unlimited Watchlist',
-                    'Advanced Wealth Dashboard & Insights',
-                    'Market News Access',
-                    'API Access',
-                    'Priority Support / Consultation',
-                    'Profile & Settings Access',
-                ]),
-                'duration_type' => 'month',
-                'duration_value' => 1,
-                'is_popular' => true,
-                'status' => true,
-            ],
-            [
-                'title' => 'Elite Pro 6 Months',
-                'description' => 'Complete premium access including regional reports, API access, and advanced insights.',
-                'price' => 299.00,
-                'features' => json_encode([
-                    'Basic Stock Reports',
-                    'Advanced Stock Reports',
-                    'International Stock Reports',
-                    'Regional Reports',
-                    'MENA Region Compliance Reports',
-                    'ETF / Fund Reports',
-                    'Access to All Exchanges',
-                    'Full Financial Management (Income, Expense, Loan)',
-                    'Full Analysis Access',
-                    'Unlimited Watchlist',
-                    'Advanced Wealth Dashboard & Insights',
-                    'Market News Access',
-                    'API Access',
-                    'Priority Support / Consultation',
-                    'Profile & Settings Access',
-                ]),
-                'duration_type' => 'month',
-                'duration_value' => 6,
-                'is_popular' => true,
-                'status' => true,
-            ],
-            [
-                'title' => 'Elite Pro 12 Months',
-                'description' => 'Complete premium access including regional reports, API access, and advanced insights.',
-                'price' => 556.00,
-                'features' => json_encode([
-                    'Basic Stock Reports',
-                    'Advanced Stock Reports',
-                    'International Stock Reports',
-                    'Regional Reports',
-                    'MENA Region Compliance Reports',
-                    'ETF / Fund Reports',
-                    'Access to All Exchanges',
-                    'Full Financial Management (Income, Expense, Loan)',
-                    'Full Analysis Access',
-                    'Unlimited Watchlist',
-                    'Advanced Wealth Dashboard & Insights',
-                    'Market News Access',
-                    'API Access',
-                    'Priority Support / Consultation',
-                    'Profile & Settings Access',
-                ]),
-                'duration_type' => 'month',
-                'duration_value' => 12,
-                'is_popular' => true,
-                'status' => true,
-            ],
         ];
 
         foreach ($plans as $plan) {
             DB::table('subscription_plans')->updateOrInsert(
                 ['title' => $plan['title']],
                 array_merge($plan, [
-                    'updated_at' => now(),
                     'created_at' => now(),
+                    'updated_at' => now(),
                 ])
             );
         }
