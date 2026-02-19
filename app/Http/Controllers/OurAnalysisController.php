@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\OurAnalysis;
 use Illuminate\Http\Request;
-use App\Jobs\SendAnalysisNotification;
+// use App\Jobs\SendAnalysisNotification;
 
 class OurAnalysisController extends Controller
 {
-    
-// -----------------------------
-// 1. List all analyses (paginated)
-// -----------------------------
+
 // -----------------------------
 // 1. List all analyses (paginated)
 // -----------------------------
@@ -79,9 +76,9 @@ public function show($id)
             $analysis = OurAnalysis::create($data);
 
             // Dispatch FCM notification to all users
-            if(!empty($data['note'])) {
-                SendAnalysisNotification::dispatch($analysis);
-            }
+            // if(!empty($data['note'])) {
+            //     SendAnalysisNotification::dispatch($analysis);
+            // }
 
             return response()->json([
                 'success' => true,
@@ -114,9 +111,9 @@ public function show($id)
             $analysis->update($data);
 
             // Dispatch notification if note updated
-            if(isset($data['note']) && $data['note']) {
-                SendAnalysisNotification::dispatch($analysis);
-            }
+            // if(isset($data['note']) && $data['note']) {
+            //     SendAnalysisNotification::dispatch($analysis);
+            // }
 
             return response()->json([
                 'success' => true,
@@ -147,8 +144,33 @@ public function show($id)
         }
     }
 
+
+
+
+      // -----------------------------
+    // 6. Bell notifications (Latest 5 globally)
     // -----------------------------
-    // 6. Standardized error response
+    public function bellNotifications()
+    {
+        try {
+            $notifications = OurAnalysis::whereNotNull('note')
+                ->where('note', '!=', '')
+                ->orderBy('created_at', 'desc')
+                ->take(5) // latest 5 only
+                ->get(['symbol', 'name', 'note', 'created_at']);
+
+            return response()->json([
+                'success' => true,
+                'count' => $notifications->count(),
+                'data' => $notifications
+            ]);
+        } catch (\Exception $e) {
+            return $this->errorResponse('Failed to fetch bell notifications', $e);
+        }
+    }
+
+    // -----------------------------
+    // 7. Standardized error response
     // -----------------------------
     private function errorResponse($message, \Exception $e, $status = 500)
     {

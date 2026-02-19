@@ -178,7 +178,7 @@ Route::prefix('financial')->group(function() {
 });
 
 
-
+Route::get('/bell-notifications', [OurAnalysisController::class, 'bellNotifications']);
 
 //OurAnalysisController
 Route::prefix('analyses')->group(function () {
