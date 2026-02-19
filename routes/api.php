@@ -120,6 +120,7 @@ Route::get('/contact', [ContactController::class, 'index']);
  Route::post('/fcm-token', [UserController::class, 'updateFcmToken']);
 
  //Messaing part
+Route::get('/chat', [MessageController::class, 'allMessages']);
 
   Route::post('/chat/send', [MessageController::class,'send']);
     Route::get('/chat/{userId}', [MessageController::class,'chatWithUser']);

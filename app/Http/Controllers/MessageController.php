@@ -8,6 +8,33 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
+
+
+// Fetch all users (id + name)
+// Admin: see all messages with sender & receiver names
+public function allMessages()
+{
+    try {
+        
+
+        // Fetch all messages with sender & receiver name
+        $messages = Message::with(['sender:id,name', 'receiver:id,name'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $messages
+        ]);
+
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => false,
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
     // Send message
     public function send(Request $request)
     {
@@ -37,25 +64,30 @@ class MessageController extends Controller
 
     // Fetch chat history with a user
     public function chatWithUser($userId)
-    {
-        try {
-            $messages = Message::where(function($q) use($userId){
-                $q->where('sender_id', Auth::id())->where('receiver_id', $userId);
-            })->orWhere(function($q) use($userId){
-                $q->where('sender_id', $userId)->where('receiver_id', Auth::id());
-            })->orderBy('created_at', 'asc')->get();
+   
+        {
+            try {
+                $messages = Message::with(['sender:id,name', 'receiver:id,name'])
+                    ->where(function($q) use($userId){
+                        $q->where('sender_id', Auth::id())
+                        ->where('receiver_id', $userId);
+                    })->orWhere(function($q) use($userId){
+                        $q->where('sender_id', $userId)
+                        ->where('receiver_id', Auth::id());
+                    })->orderBy('created_at', 'asc')
+                    ->get();
 
-            return response()->json([
-                'status' => true,
-                'data' => $messages
-            ]);
-        } catch (\Throwable $e) {
-            return response()->json([
-                'status' => false,
-                'error'  => $e->getMessage()
-            ], 500);
+                return response()->json([
+                    'status' => true,
+                    'data' => $messages
+                ]);
+            } catch (\Throwable $e) {
+                return response()->json([
+                    'status' => false,
+                    'error'  => $e->getMessage()
+                ], 500);
+            }
         }
-    }
 
     // Soft delete a message (sender only)
     public function delete($id)
