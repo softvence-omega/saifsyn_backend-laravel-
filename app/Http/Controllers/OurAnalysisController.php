@@ -153,11 +153,12 @@ public function show($id)
       // -----------------------------
     // 6. Bell notifications (Latest 5 globally)
     // -----------------------------
-    public function bellNotifications()
+   public function bellNotifications()
 {
     try {
         $userId = auth()->id();
 
+        // Latest unread notifications
         $notifications = \App\Models\Notification::with('analysis:id,symbol,name,note')
             ->where('user_id', $userId)
             ->where('is_read', 0) // only unread
@@ -165,11 +166,23 @@ public function show($id)
             ->take(5)
             ->get();
 
+        $unreadCount = \App\Models\Notification::where('user_id', $userId)
+                        ->where('is_read', 0)
+                        ->count(); // unread count
+
+        // যদি unread notifications না থাকে
+        if ($unreadCount == 0) {
+            return response()->json([
+                'success' => true,
+                'count' => 0,
+                'data' => [],
+                'message' => 'No new notifications'
+            ]);
+        }
+
         return response()->json([
             'success' => true,
-            'count' => \App\Models\Notification::where('user_id', $userId)
-                        ->where('is_read', 0)
-                        ->count(), // unread count
+            'count' => $unreadCount,
             'data' => $notifications
         ]);
 
@@ -199,7 +212,7 @@ public function markAsRead($id)
             ], 404);
         }
 
-        // Already read হলে আবার update করবে না
+        // Already read 
         if ($notification->is_read == 0) {
             $notification->is_read = 1;
             $notification->save();
