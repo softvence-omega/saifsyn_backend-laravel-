@@ -632,7 +632,7 @@
               }
             ],
             "url": {
-              "raw": "{{url}}/zoya/stock?symbol=AMD",
+              "raw": "{{url}}/zoya/stock?symbol=B",
               "host": [
                 "{{url}}"
               ],
@@ -643,7 +643,7 @@
               "query": [
                 {
                   "key": "symbol",
-                  "value": "AMD"
+                  "value": "B"
                 }
               ]
             }
@@ -1047,7 +1047,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"receiver_id\": 2,\r\n  \"message\": \"How are you\"\r\n}\r\n",
+              "raw": "{\r\n  \"receiver_id\": 2,\r\n  \"message\": \"i am \"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1101,6 +1101,122 @@
               "path": [
                 "chat",
                 "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "all-show-message",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/chat",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "chat"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "message-notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/admin/message-notifications",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "admin",
+                "message-notifications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "read-notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url}}/admin/message-notifications/read/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "admin",
+                "message-notifications",
+                "read",
+                "1"
               ]
             }
           },
@@ -1542,7 +1658,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"symbol\": \"AAPL\",\r\n    \"name\": \"Apple Inc.\",\r\n    \"status\": \"COMPLIANT\",\r\n    \"debt_to_market_cap_ratio\": 0.1234,\r\n    \"securities_to_market_cap_ratio\": 0.5678,\r\n    \"compliant_revenue\": 5000000000,\r\n    \"non_compliant_revenue\": 100000000,\r\n    \"questionable_revenue\": 50000000,\r\n    \"recommendation\": \"This stock is suitable for Shariah-compliant portfolios.\",\r\n    \"note\": \"Check latest quarterly report for details before investing.\"\r\n}\r\n"
+              "raw": "{\r\n    \"symbol\": \"B\",\r\n    \"name\": \"Barnes Group Inc.\",\r\n    \"status\": \"COMPLIANT\",\r\n   \r\n    \"recommendation\": \"This stock is suitable for Shariah-compliant portfolios.\",\r\n    \"note\": \"Check latest quarterly report for details before investing.\"\r\n}\r\n"
             },
             "url": {
               "raw": "{{url}}/analyses",
@@ -1635,13 +1751,13 @@
               "raw": "\r\n"
             },
             "url": {
-              "raw": "{{url}}/analyses/1",
+              "raw": "{{url}}/analyses/5",
               "host": [
                 "{{url}}"
               ],
               "path": [
                 "analyses",
-                "1"
+                "5"
               ]
             }
           },
@@ -1675,7 +1791,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"symbol\": \"AAPL\",\r\n    \"name\": \"Apple Inc.\",\r\n    \"status\": \"COMPLIANT\",\r\n    \"debt_to_market_cap_ratio\": 0.1234,\r\n    \"securities_to_market_cap_ratio\": 0.5678,\r\n    \"compliant_revenue\": 5000000000,\r\n    \"non_compliant_revenue\": 100000000,\r\n    \"questionable_revenue\": 50000000,\r\n    \"recommendation\": \"This stock is suitable for Shariah-compliant portfolios.\",\r\n    \"note\": \"Check latest quarterly report for details before investing.\"\r\n}\r\n"
+              "raw": "{\r\n    \"symbol\": \"AAPL.\",\r\n    \"name\": \"Apple Inc.\",\r\n    \"status\": \"COMPLIANT\",\r\n    \"debt_to_market_cap_ratio\": 0.1234,\r\n    \"securities_to_market_cap_ratio\": 0.5678,\r\n    \"compliant_revenue\": 5000000000,\r\n    \"non_compliant_revenue\": 100000000,\r\n    \"questionable_revenue\": 50000000,\r\n    \"recommendation\": \"This stock is suitable for Shariah-compliant portfolios.\",\r\n    \"note\": \"Check latest quarterly report for details before investing.\"\r\n}\r\n"
             },
             "url": {
               "raw": "{{url}}/analyses/1",
@@ -1721,13 +1837,91 @@
               "raw": "\r\n"
             },
             "url": {
-              "raw": "{{url}}/analyses/2",
+              "raw": "{{url}}/analyses/4",
               "host": [
                 "{{url}}"
               ],
               "path": [
                 "analyses",
-                "2"
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "bell notifications",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/bell-notifications",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "bell-notifications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "red-notification",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{url}}/notifications/read/1",
+              "host": [
+                "{{url}}"
+              ],
+              "path": [
+                "notifications",
+                "read",
+                "1"
               ]
             }
           },
@@ -2091,14 +2285,14 @@
                   "raw": "\r\n"
                 },
                 "url": {
-                  "raw": "{{url}}/financial/incomes/2",
+                  "raw": "{{url}}/financial/incomes/1",
                   "host": [
                     "{{url}}"
                   ],
                   "path": [
                     "financial",
                     "incomes",
-                    "2"
+                    "1"
                   ]
                 }
               },
@@ -3211,7 +3405,7 @@
               }
             },
             "url": {
-              "raw": "{{url}}/users?status=active",
+              "raw": "{{url}}/users?status=active&status=inactive",
               "host": [
                 "{{url}}"
               ],
@@ -3225,8 +3419,7 @@
                 },
                 {
                   "key": "status",
-                  "value": "inactive",
-                  "disabled": true
+                  "value": "inactive"
                 }
               ]
             }

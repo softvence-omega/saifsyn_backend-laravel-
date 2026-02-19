@@ -119,12 +119,36 @@ Route::get('/contact', [ContactController::class, 'index']);
 
  Route::post('/fcm-token', [UserController::class, 'updateFcmToken']);
 
- //Messaing part
+ // =======================
+// Messaging Routes
+// =======================
 
-  Route::post('/chat/send', [MessageController::class,'send']);
-    Route::get('/chat/{userId}', [MessageController::class,'chatWithUser']);
-    Route::delete('/chat/delete/{id}', [MessageController::class,'delete']);
-    Route::post('/chat/restore/{id}', [MessageController::class,'restore']);
+    // Get all messages (logged in user এর সব chat list)
+    Route::get('/chat', [MessageController::class, 'allMessages']);
+
+    // Send a new message (sender  authenticated user হবে)
+    Route::post('/chat/send', [MessageController::class, 'send']);
+
+    // Get chat with a specific user (only that user to user conversation)
+    Route::get('/chat/{userId}', [MessageController::class, 'chatWithUser']);
+
+    // Delete a message (soft delete)
+    Route::delete('/chat/delete/{id}', [MessageController::class, 'delete']);
+
+    // Restore a deleted message
+    Route::post('/chat/restore/{id}', [MessageController::class, 'restore']);
+
+
+    // =======================
+    // Admin Message Notification (Bell Icon)
+    // =======================
+
+    // Get all message notifications for admin panel bell
+    Route::get('/admin/message-notifications', [MessageController::class, 'adminMessageNotifications']);
+
+    // Mark a specific message notification as read (admin only)
+    Route::post('/admin/message-notifications/read/{id}', [MessageController::class, 'markMessageNotificationAsRead']);
+
 
 
 
@@ -178,7 +202,11 @@ Route::prefix('financial')->group(function() {
 });
 
 
+ // Bell notifications
+    Route::get('/bell-notifications', [OurAnalysisController::class, 'bellNotifications']);
 
+    // Mark notification as read
+    Route::post('/notifications/read/{id}', [OurAnalysisController::class, 'markAsRead']);
 
 //OurAnalysisController
 Route::prefix('analyses')->group(function () {
