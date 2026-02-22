@@ -7,19 +7,16 @@ use Illuminate\Support\Facades\DB;
 
 class SubscriptionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-       $plans = [
+        $plans = [
 
-    // ==============================
-    // Beginner Plans
-    // ==============================
-    [
+            // ==============================
+            // Beginner Plans (Basic, Limited)
+            // ==============================
+            [
                 'title' => 'Beginner 1 Month',
-                'description' => 'Access to basic Shariah stock reports and core financial management tools.',
+                'description' => 'Basic Shariah stock reports and core financial tools.',
                 'price' => 79,
                 'features' => json_encode([
                     'Specific Stock Shariah Report',
@@ -37,7 +34,7 @@ class SubscriptionSeeder extends Seeder
             ],
             [
                 'title' => 'Beginner 6 Months',
-                'description' => 'Access to basic Shariah stock reports and core financial management tools.',
+                'description' => 'Basic Shariah stock reports and core financial tools.',
                 'price' => 299,
                 'features' => json_encode([
                     'Specific Stock Shariah Report',
@@ -55,7 +52,7 @@ class SubscriptionSeeder extends Seeder
             ],
             [
                 'title' => 'Beginner 12 Months',
-                'description' => 'Access to basic Shariah stock reports and core financial management tools.',
+                'description' => 'Basic Shariah stock reports and core financial tools.',
                 'price' => 556,
                 'features' => json_encode([
                     'Specific Stock Shariah Report',
@@ -73,20 +70,20 @@ class SubscriptionSeeder extends Seeder
             ],
 
             // ==============================
-            // Elite Plans
+            // Elite Plans (Partial Access)
             // ==============================
             [
                 'title' => 'Elite 1 Month',
-                'description' => 'Full access to all Shariah compliance reports including ETF and complete financial tools.',
+                'description' => 'Full access to most Shariah compliance reports, limited ETF/funds and analysis.',
                 'price' => 149,
                 'features' => json_encode([
                     'Specific Stock Shariah Report',
-                    'All US Market Shariah Reports',
-                    'All Compliant Stock Reports',
-                    'ETF / Fund Shariah Reports',
+                    'All US Market Shariah Reports (Limited)',
+                    'All Compliant Stock Reports (Limited)',
+                    'ETF / Fund Shariah Reports (Limited)',
                     'Unlimited Watchlist',
                     'Full Financial Management (Income, Expense, Loan)',
-                    'Full Analysis Access',
+                    'Full Analysis Access (Limited)',
                     'Advanced Wealth Dashboard & Insights',
                     'Profile & Settings Access',
                 ]),
@@ -97,16 +94,16 @@ class SubscriptionSeeder extends Seeder
             ],
             [
                 'title' => 'Elite 6 Months',
-                'description' => 'Full access to all Shariah compliance reports including ETF and complete financial tools.',
+                'description' => 'Full access to most Shariah compliance reports, limited ETF/funds and analysis.',
                 'price' => 799,
                 'features' => json_encode([
                     'Specific Stock Shariah Report',
-                    'All US Market Shariah Reports',
-                    'All Compliant Stock Reports',
-                    'ETF / Fund Shariah Reports',
+                    'All US Market Shariah Reports (Limited)',
+                    'All Compliant Stock Reports (Limited)',
+                    'ETF / Fund Shariah Reports (Limited)',
                     'Unlimited Watchlist',
                     'Full Financial Management (Income, Expense, Loan)',
-                    'Full Analysis Access',
+                    'Full Analysis Access (Limited)',
                     'Advanced Wealth Dashboard & Insights',
                     'Profile & Settings Access',
                 ]),
@@ -117,8 +114,32 @@ class SubscriptionSeeder extends Seeder
             ],
             [
                 'title' => 'Elite 12 Months',
-                'description' => 'Full access to all Shariah compliance reports including ETF and complete financial tools.',
+                'description' => 'Full access to most Shariah compliance reports, limited ETF/funds and analysis.',
                 'price' => 1399,
+                'features' => json_encode([
+                    'Specific Stock Shariah Report',
+                    'All US Market Shariah Reports (Limited)',
+                    'All Compliant Stock Reports (Limited)',
+                    'ETF / Fund Shariah Reports (Limited)',
+                    'Unlimited Watchlist',
+                    'Full Financial Management (Income, Expense, Loan)',
+                    'Full Analysis Access (Limited)',
+                    'Advanced Wealth Dashboard & Insights',
+                    'Profile & Settings Access',
+                ]),
+                'duration_type' => 'month',
+                'duration_value' => 12,
+                'is_popular' => true,
+                'status' => true,
+            ],
+
+            // ==============================
+            // Elite Pro Plans (All Access)
+            // ==============================
+            [
+                'title' => 'Elite Pro 1 Month',
+                'description' => 'Complete premium access including all Shariah reports, ETF, and analysis tools.',
+                'price' => 299,
                 'features' => json_encode([
                     'Specific Stock Shariah Report',
                     'All US Market Shariah Reports',
@@ -131,42 +152,22 @@ class SubscriptionSeeder extends Seeder
                     'Profile & Settings Access',
                 ]),
                 'duration_type' => 'month',
-                'duration_value' => 12,
-                'is_popular' => true,
-                'status' => true,
-            ],
-
-            // ==============================
-            // Elite Pro Plans
-            // ==============================
-            [
-                'title' => 'Elite Pro 1 Month',
-                'description' => 'Premium access with essential Shariah reports and financial tools.',
-                'price' => 299,
-                'features' => json_encode([
-                    'Specific Stock Shariah Report',
-                    'ETF / Fund Reports',
-                    'Full Financial Management (Income, Expense, Loan)',
-                    'Full Analysis Access',
-                    'Unlimited Watchlist',
-                    'Advanced Wealth Dashboard & Insights',
-                    'Profile & Settings Access',
-                ]),
-                'duration_type' => 'month',
                 'duration_value' => 1,
                 'is_popular' => true,
                 'status' => true,
             ],
             [
                 'title' => 'Elite Pro 6 Months',
-                'description' => 'Premium access with essential Shariah reports and financial tools.',
+                'description' => 'Complete premium access including all Shariah reports, ETF, and analysis tools.',
                 'price' => 1299,
                 'features' => json_encode([
                     'Specific Stock Shariah Report',
-                    'ETF / Fund Reports',
+                    'All US Market Shariah Reports',
+                    'All Compliant Stock Reports',
+                    'ETF / Fund Shariah Reports',
+                    'Unlimited Watchlist',
                     'Full Financial Management (Income, Expense, Loan)',
                     'Full Analysis Access',
-                    'Unlimited Watchlist',
                     'Advanced Wealth Dashboard & Insights',
                     'Profile & Settings Access',
                 ]),
@@ -177,14 +178,16 @@ class SubscriptionSeeder extends Seeder
             ],
             [
                 'title' => 'Elite Pro 12 Months',
-                'description' => 'Premium access with essential Shariah reports and financial tools.',
+                'description' => 'Complete premium access including all Shariah reports, ETF, and analysis tools.',
                 'price' => 2399,
                 'features' => json_encode([
                     'Specific Stock Shariah Report',
-                    'ETF / Fund Reports',
+                    'All US Market Shariah Reports',
+                    'All Compliant Stock Reports',
+                    'ETF / Fund Shariah Reports',
+                    'Unlimited Watchlist',
                     'Full Financial Management (Income, Expense, Loan)',
                     'Full Analysis Access',
-                    'Unlimited Watchlist',
                     'Advanced Wealth Dashboard & Insights',
                     'Profile & Settings Access',
                 ]),
