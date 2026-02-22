@@ -72,11 +72,10 @@ class PaymentController extends Controller
 
 
 
-
 public function show(Request $request)
 {
     try {
-        $user = $request->user(); // লগইন করা ইউজার
+        $user = $request->user(); 
 
         if (!$user) {
             return response()->json([
@@ -85,7 +84,7 @@ public function show(Request $request)
             ], 401);
         }
 
-        // ইউজারের সব payment history fetch
+       
         $payments = Payment::with('plan')
             ->where('user_id', $user->id)
             ->latest()

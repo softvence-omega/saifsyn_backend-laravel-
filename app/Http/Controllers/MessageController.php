@@ -109,6 +109,49 @@ public function allMessages()
             }
         }
 
+
+
+
+
+
+        //app
+
+public function getMessages(Request $request)
+{
+    $request->validate([
+        'sender_id'   => 'nullable|exists:users,id',
+        'receiver_id' => 'nullable|exists:users,id',
+    ]);
+
+    $senderId = $request->query('sender_id');
+    $receiverId = $request->query('receiver_id');
+
+    // Fetch messages where (sender -> receiver) or (receiver -> sender)
+    $messages = Message::where(function ($query) use ($senderId, $receiverId) {
+        $query->where('sender_id', $senderId)
+              ->where('receiver_id', $receiverId);
+    })->orWhere(function ($query) use ($senderId, $receiverId) {
+        $query->where('sender_id', $receiverId)
+              ->where('receiver_id', $senderId);
+    })
+    ->orderBy('created_at', 'asc') // oldest first
+    ->get();
+
+    return response()->json([
+        'success' => true,
+        'data'    => $messages->map(function ($msg) {
+            return [
+                'id'          => $msg->id,
+                'sender_id'   => $msg->sender_id,
+                'receiver_id' => $msg->receiver_id,
+                'message'     => $msg->message,
+                'created_at'  => $msg->created_at,
+            ];
+        }),
+    ]);
+}
+
+
     // Soft delete a message (sender only)
     public function delete($id)
     {

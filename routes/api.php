@@ -125,6 +125,7 @@ Route::get('/contact', [ContactController::class, 'index']);
 
     // Get all messages (logged in user এর সব chat list)
     Route::get('/chat', [MessageController::class, 'allMessages']);
+    Route::get('/messages', [MessageController::class, 'getMessages'])->name('messages.get');
 
     // Send a new message (sender  authenticated user হবে)
     Route::post('/chat/send', [MessageController::class, 'send']);
