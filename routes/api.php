@@ -127,7 +127,7 @@ Route::get('/contact', [ContactController::class, 'index']);
     Route::get('/chat', [MessageController::class, 'allMessages']);
     Route::get('/messages', [MessageController::class, 'getMessages'])->name('messages.get');
 
-    // Send a new message (sender  authenticated user হবে)
+    // Send a new message (sender  authenticated user )
     Route::post('/chat/send', [MessageController::class, 'send']);
 
     // Get chat with a specific user (only that user to user conversation)

@@ -13,21 +13,33 @@ class MessageController extends Controller
 {
 
 
-// Fetch all users (id + name)
-// Admin: see all messages with sender & receiver names
 public function allMessages()
 {
     try {
-        
-
-        // Fetch all messages with sender & receiver name
-        $messages = Message::with(['sender:id,name', 'receiver:id,name'])
-            ->orderBy('created_at', 'desc')
+        // Fetch all users except admin
+        $users = User::where('id', '!=', 1)
+            ->select('id', 'name')
+            ->orderBy('name', 'asc')
             ->get();
+
+        // Attach all messages for each user
+        $users = $users->map(function ($user) {
+            $userMessages = Message::with(['sender:id,name', 'receiver:id,name'])
+                ->where(function($q) use ($user) {
+                    $q->where('sender_id', $user->id)
+                      ->orWhere('receiver_id', $user->id);
+                })
+                ->orderBy('created_at', 'asc') // old → new
+                ->get();
+
+            $user->messages = $userMessages;
+
+            return $user;
+        });
 
         return response()->json([
             'status' => true,
-            'data' => $messages
+            'data' => $users
         ]);
 
     } catch (\Throwable $e) {
@@ -37,7 +49,6 @@ public function allMessages()
         ], 500);
     }
 }
-
     // Send message
     public function send(Request $request)
 {
@@ -83,34 +94,32 @@ public function allMessages()
 }
 
     // Fetch chat history with a user
-    public function chatWithUser($userId)
-   
-        {
-            try {
-                $messages = Message::with(['sender:id,name', 'receiver:id,name'])
-                    ->where(function($q) use($userId){
-                        $q->where('sender_id', Auth::id())
-                        ->where('receiver_id', $userId);
-                    })->orWhere(function($q) use($userId){
-                        $q->where('sender_id', $userId)
-                        ->where('receiver_id', Auth::id());
-                    })->orderBy('created_at', 'asc')
-                    ->get();
+     public function chatWithUser($userId)
+{
+    try {
+        $messages = Message::with(['sender:id,name', 'receiver:id,name'])
+            ->where(function ($q) use ($userId) {
+                $q->where('sender_id', Auth::id())
+                  ->where('receiver_id', $userId);
+            })
+            ->orWhere(function ($q) use ($userId) {
+                $q->where('sender_id', $userId)
+                  ->where('receiver_id', Auth::id());
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-                return response()->json([
-                    'status' => true,
-                    'data' => $messages
-                ]);
-            } catch (\Throwable $e) {
-                return response()->json([
-                    'status' => false,
-                    'error'  => $e->getMessage()
-                ], 500);
-            }
-        }
-
-
-
+        return response()->json([
+            'status' => true,
+            'data'   => $messages
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => false,
+            'error'  => $e->getMessage()
+        ], 500);
+    }
+}
 
 
 
