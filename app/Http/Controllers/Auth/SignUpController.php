@@ -21,6 +21,7 @@ class SignUpController extends Controller
         // ✅ Validation with custom messages
         $request->validate([
             'email' => 'required|email',
+             'name' => 'required|string|max:255',
             'password' => [
                 'required',
                 'confirmed',
@@ -29,6 +30,7 @@ class SignUpController extends Controller
             'role' => 'required|string',
              'terms_accepted' => 'required|accepted',
         ], [
+             'name.required' => 'Name field is required.',
             'email.required' => 'Email field is required.',
             'email.email' => 'Please enter a valid email address.',
             'password.required' => 'Password is required.',
@@ -56,6 +58,7 @@ class SignUpController extends Controller
 
         // Create user
         $user = User::create([
+             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'terms_accepted' => true,
