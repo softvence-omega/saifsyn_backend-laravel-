@@ -197,8 +197,11 @@ public function show(Request $request)
                         'payment_id' => $payment->id,
                         'user_id'    => $user->id,
                     ],
-                    'success_url' => url('/api/v1/payment/success') . '?session_id={CHECKOUT_SESSION_ID}',
-                    'cancel_url'  => url('/api/v1/payment/cancel'),
+                    // 'success_url' => url('/api/v1/payment/success') . '?session_id={CHECKOUT_SESSION_ID}',
+                    // 'cancel_url'  => url('/api/v1/payment/cancel'),
+
+                    'success_url' => 'https://saifsyn-frontend-eight.vercel.app/payment/payment-success?session_id={CHECKOUT_SESSION_ID}',
+                    'cancel_url'  => 'https://saifsyn-frontend-eight.vercel.app/payment/payment-cancel',
                 ]);
 
                 $payment->update(['transaction_id' => $session->id]);
